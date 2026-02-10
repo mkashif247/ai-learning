@@ -11,6 +11,8 @@ const tutorSchema = z.object({
     roadmapTitle: z.string().optional(),
     currentPhase: z.string().optional(),
     currentTopic: z.string().optional(),
+    code: z.string().optional(),
+    language: z.string().optional(),
   }).optional(),
 });
 

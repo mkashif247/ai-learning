@@ -102,6 +102,8 @@ export const getTutorPrompt = (
     currentPhase?: string;
     currentTopic?: string;
     roadmapTitle?: string;
+    code?: string;
+    language?: string;
   }
 ): string => {
   let contextInfo = '';
@@ -113,6 +115,9 @@ export const getTutorPrompt = (
   }
   if (context.currentTopic) {
     contextInfo += `\nCurrent Topic: ${context.currentTopic}`;
+  }
+  if (context.code) {
+    contextInfo += `\n\nThe user is currently working on the following code:\n\`\`\`${context.language || ''}\n${context.code}\n\`\`\`\n`;
   }
 
   return `You are an expert AI tutor helping a learner with their studies.${contextInfo}
