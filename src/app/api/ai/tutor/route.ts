@@ -1,19 +1,22 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { streamText } from 'ai';
-import { z } from 'zod';
-import { authOptions } from '@/lib/auth';
-import { getAIModel, getTutorPrompt } from '@/lib/ai';
+import { streamText } from "ai";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { z } from "zod";
+
+import { getAIModel, getTutorPrompt } from "@/lib/ai";
+import { authOptions } from "@/lib/auth";
 
 const tutorSchema = z.object({
   message: z.string().min(1),
-  context: z.object({
-    roadmapTitle: z.string().optional(),
-    currentPhase: z.string().optional(),
-    currentTopic: z.string().optional(),
-    code: z.string().optional(),
-    language: z.string().optional(),
-  }).optional(),
+  context: z
+    .object({
+      roadmapTitle: z.string().optional(),
+      currentPhase: z.string().optional(),
+      currentTopic: z.string().optional(),
+      code: z.string().optional(),
+      language: z.string().optional(),
+    })
+    .optional(),
 });
 
 export async function POST(request: Request) {
@@ -21,8 +24,8 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
@@ -32,8 +35,8 @@ export async function POST(request: Request) {
     if (!result.success) {
       const firstIssue = result.error.issues[0];
       return NextResponse.json(
-        { success: false, error: firstIssue?.message || 'Validation failed' },
-        { status: 400 }
+        { success: false, error: firstIssue?.message || "Validation failed" },
+        { status: 400 },
       );
     }
 
@@ -60,15 +63,15 @@ export async function POST(request: Request) {
 
     return new Response(stream, {
       headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
       },
     });
   } catch (error) {
-    console.error('Tutor error:', error);
+    console.error("Tutor error:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to get response' },
-      { status: 500 }
+      { success: false, error: "Failed to get response" },
+      { status: 500 },
     );
   }
 }

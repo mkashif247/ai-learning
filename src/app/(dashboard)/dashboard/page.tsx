@@ -1,29 +1,41 @@
-import { getServerSession } from 'next-auth';
-import Link from 'next/link';
-import { authOptions } from '@/lib/auth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
 import {
-  PlusCircle,
-  Map,
-  Clock,
-  TrendingUp,
-  Target,
   BookOpen,
   ChevronRight,
+  Clock,
+  Map,
+  PlusCircle,
   Sparkles,
-} from 'lucide-react';
+  Target,
+  TrendingUp,
+} from "lucide-react";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { authOptions } from "@/lib/auth";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
   const stats = [
-    { label: 'Active Roadmaps', value: '0', icon: Map, color: 'violet' },
-    { label: 'Topics Completed', value: '0', icon: Target, color: 'emerald' },
-    { label: 'Hours Learned', value: '0', icon: Clock, color: 'amber' },
-    { label: 'Current Streak', value: '0 days', icon: TrendingUp, color: 'blue' },
+    { label: "Active Roadmaps", value: "0", icon: Map, color: "violet" },
+    { label: "Topics Completed", value: "0", icon: Target, color: "emerald" },
+    { label: "Hours Learned", value: "0", icon: Clock, color: "amber" },
+    {
+      label: "Current Streak",
+      value: "0 days",
+      icon: TrendingUp,
+      color: "blue",
+    },
   ];
 
   return (
@@ -32,7 +44,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
-            Welcome back, {session?.user?.name?.split(' ')[0] || 'Learner'}! 👋
+            Welcome back, {session?.user?.name?.split(" ")[0] || "Learner"}! 👋
           </h1>
           <p className="text-slate-400 mt-1">
             Track your progress and continue learning
@@ -58,31 +70,33 @@ export default async function DashboardPage() {
                     className={`h-10 w-10 rounded-lg flex items-center justify-center bg-${stat.color}-500/10`}
                     style={{
                       backgroundColor:
-                        stat.color === 'violet'
-                          ? 'rgba(139, 92, 246, 0.1)'
-                          : stat.color === 'emerald'
-                            ? 'rgba(16, 185, 129, 0.1)'
-                            : stat.color === 'amber'
-                              ? 'rgba(245, 158, 11, 0.1)'
-                              : 'rgba(59, 130, 246, 0.1)',
+                        stat.color === "violet"
+                          ? "rgba(139, 92, 246, 0.1)"
+                          : stat.color === "emerald"
+                            ? "rgba(16, 185, 129, 0.1)"
+                            : stat.color === "amber"
+                              ? "rgba(245, 158, 11, 0.1)"
+                              : "rgba(59, 130, 246, 0.1)",
                     }}
                   >
                     <Icon
                       className="h-5 w-5"
                       style={{
                         color:
-                          stat.color === 'violet'
-                            ? '#a78bfa'
-                            : stat.color === 'emerald'
-                              ? '#34d399'
-                              : stat.color === 'amber'
-                                ? '#fbbf24'
-                                : '#60a5fa',
+                          stat.color === "violet"
+                            ? "#a78bfa"
+                            : stat.color === "emerald"
+                              ? "#34d399"
+                              : stat.color === "amber"
+                                ? "#fbbf24"
+                                : "#60a5fa",
                       }}
                     />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-slate-100">{stat.value}</p>
+                    <p className="text-2xl font-bold text-slate-100">
+                      {stat.value}
+                    </p>
                     <p className="text-xs text-slate-500">{stat.label}</p>
                   </div>
                 </div>
@@ -115,9 +129,12 @@ export default async function DashboardPage() {
                 <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
                   <Map className="h-8 w-8 text-violet-400" />
                 </div>
-                <h3 className="text-lg font-medium text-slate-200 mb-2">No roadmaps yet</h3>
+                <h3 className="text-lg font-medium text-slate-200 mb-2">
+                  No roadmaps yet
+                </h3>
                 <p className="text-sm text-slate-400 mb-4 max-w-sm mx-auto">
-                  Create your first AI-powered roadmap to start your learning journey
+                  Create your first AI-powered roadmap to start your learning
+                  journey
                 </p>
                 <Link href="/roadmaps/new">
                   <Button className="gap-2">
@@ -144,8 +161,12 @@ export default async function DashboardPage() {
                     <Sparkles className="h-5 w-5 text-violet-400" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-200">Generate Roadmap</p>
-                    <p className="text-xs text-slate-500">Create AI-powered learning path</p>
+                    <p className="text-sm font-medium text-slate-200">
+                      Generate Roadmap
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Create AI-powered learning path
+                    </p>
                   </div>
                 </div>
               </Link>
@@ -154,7 +175,9 @@ export default async function DashboardPage() {
                   <BookOpen className="h-5 w-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-slate-200">Browse Templates</p>
+                  <p className="text-sm font-medium text-slate-200">
+                    Browse Templates
+                  </p>
                   <p className="text-xs text-slate-500">Coming soon</p>
                 </div>
               </div>
@@ -176,7 +199,9 @@ export default async function DashboardPage() {
                 <Progress value={0} />
               </div>
               <div className="text-center py-4">
-                <Badge variant="secondary">Start learning to track progress</Badge>
+                <Badge variant="secondary">
+                  Start learning to track progress
+                </Badge>
               </div>
             </CardContent>
           </Card>

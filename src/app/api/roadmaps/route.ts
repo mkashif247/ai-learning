@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { connectDB, Roadmap } from '@/lib/db';
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/lib/auth";
+import { connectDB, Roadmap } from "@/lib/db";
 
 // GET - List user's roadmaps
 export async function GET() {
@@ -9,15 +10,15 @@ export async function GET() {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
     await connectDB();
 
     const roadmaps = await Roadmap.find({ userId: session.user.id })
-      .select('title goal targetRole timeline createdAt phases')
+      .select("title goal targetRole timeline createdAt phases")
       .sort({ createdAt: -1 })
       .lean();
 
@@ -29,7 +30,7 @@ export async function GET() {
       roadmap.phases.forEach((phase) => {
         phase.topics.forEach((topic) => {
           totalTopics++;
-          if (topic.status === 'done') {
+          if (topic.status === "done") {
             completedTopics++;
           }
         });
@@ -42,7 +43,10 @@ export async function GET() {
         targetRole: roadmap.targetRole,
         timeline: roadmap.timeline,
         createdAt: roadmap.createdAt,
-        progress: totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0,
+        progress:
+          totalTopics > 0
+            ? Math.round((completedTopics / totalTopics) * 100)
+            : 0,
         totalTopics,
         completedTopics,
       };
@@ -53,10 +57,10 @@ export async function GET() {
       data: roadmapsWithProgress,
     });
   } catch (error) {
-    console.error('Error fetching roadmaps:', error);
+    console.error("Error fetching roadmaps:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch roadmaps' },
-      { status: 500 }
+      { success: false, error: "Failed to fetch roadmaps" },
+      { status: 500 },
     );
   }
 }

@@ -1,8 +1,10 @@
-import { redirect, notFound } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { connectDB, Roadmap } from '@/lib/db';
-import RoadmapDetailClient from './client';
+import { notFound,redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/lib/auth";
+import { connectDB, Roadmap } from "@/lib/db";
+
+import RoadmapDetailClient from "./client";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -11,7 +13,7 @@ interface PageProps {
 export default async function RoadmapDetailPage({ params }: PageProps) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const { id } = await params;

@@ -1,1 +1,1 @@
-export { authOptions } from './auth';
+export { authOptions } from "./auth";

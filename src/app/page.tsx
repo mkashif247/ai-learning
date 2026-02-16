@@ -1,63 +1,64 @@
-import Link from 'next/link';
-import { Navbar } from '@/components/layout/navbar';
-import { Button } from '@/components/ui/button';
 import {
-  Sparkles,
-  Target,
-  Brain,
-  Code,
-  TrendingUp,
-  Clock,
-  ChevronRight,
-  Star,
-  Users,
   BookOpen,
-} from 'lucide-react';
+  Brain,
+  ChevronRight,
+  Clock,
+  Code,
+  Sparkles,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+
+import { Navbar } from "@/components/layout/navbar";
+import { Button } from "@/components/ui/button";
 
 const features = [
   {
     icon: Brain,
-    title: 'AI-Powered Roadmaps',
+    title: "AI-Powered Roadmaps",
     description:
-      'Generate personalized learning paths based on your goals, timeline, and skill level.',
+      "Generate personalized learning paths based on your goals, timeline, and skill level.",
   },
   {
     icon: Target,
-    title: 'Interview Preparation',
+    title: "Interview Preparation",
     description:
-      'Structured interview prep with focused topics, practice questions, and mock scenarios.',
+      "Structured interview prep with focused topics, practice questions, and mock scenarios.",
   },
   {
     icon: Code,
-    title: 'In-Browser Practice',
+    title: "In-Browser Practice",
     description:
-      'Write, run, and test code directly in the platform. No setup required.',
+      "Write, run, and test code directly in the platform. No setup required.",
   },
   {
     icon: TrendingUp,
-    title: 'Progress Tracking',
+    title: "Progress Tracking",
     description:
-      'Track your learning journey with detailed analytics and AI-powered insights.',
+      "Track your learning journey with detailed analytics and AI-powered insights.",
   },
   {
     icon: Clock,
-    title: 'Time-Optimized',
+    title: "Time-Optimized",
     description:
-      'Roadmaps adapted to your schedule - from 1 hour to 8 hours per day.',
+      "Roadmaps adapted to your schedule - from 1 hour to 8 hours per day.",
   },
   {
     icon: BookOpen,
-    title: 'Rich Content',
+    title: "Rich Content",
     description:
-      'Learn without leaving the platform. AI-generated explanations and curated resources.',
+      "Learn without leaving the platform. AI-generated explanations and curated resources.",
   },
 ];
 
 const stats = [
-  { value: '10K+', label: 'Learners' },
-  { value: '500+', label: 'Roadmaps' },
-  { value: '95%', label: 'Success Rate' },
-  { value: '4.9', label: 'Rating', icon: Star },
+  { value: "10K+", label: "Learners" },
+  { value: "500+", label: "Roadmaps" },
+  { value: "95%", label: "Success Rate" },
+  { value: "4.9", label: "Rating", icon: Star },
 ];
 
 export default function HomePage() {
@@ -72,12 +73,14 @@ export default function HomePage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
             <Sparkles className="h-4 w-4 text-violet-400" />
-            <span className="text-sm text-violet-300">AI-Powered Learning Platform</span>
+            <span className="text-sm text-violet-300">
+              AI-Powered Learning Platform
+            </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-100 mb-6 leading-tight">
-            Master Any Skill with{' '}
+            Master Any Skill with{" "}
             <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
               Personalized Roadmaps
             </span>
@@ -85,8 +88,9 @@ export default function HomePage() {
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Generate AI-powered learning paths, prepare for technical interviews, practice with
-            real code, and track your progress — all in one place.
+            Generate AI-powered learning paths, prepare for technical
+            interviews, practice with real code, and track your progress — all
+            in one place.
           </p>
 
           {/* CTA Buttons */}
@@ -98,7 +102,11 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/login">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-base">
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto text-base"
+              >
                 Sign In
               </Button>
             </Link>
@@ -110,7 +118,7 @@ export default function HomePage() {
               <div key={stat.label} className="text-center">
                 <div className="flex items-center justify-center gap-1 text-2xl md:text-3xl font-bold text-slate-100 mb-1">
                   {stat.value}
-                  {stat.icon && <Star className="h-5 w-5 text-amber-400 fill-amber-400" />}
+                  {stat.icon ? <Star className="h-5 w-5 text-amber-400 fill-amber-400" /> : null}
                 </div>
                 <div className="text-sm text-slate-500">{stat.label}</div>
               </div>
@@ -127,8 +135,8 @@ export default function HomePage() {
               Everything You Need to Learn
             </h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Stop jumping between platforms. Learn, practice, and track your progress in one
-              unified experience.
+              Stop jumping between platforms. Learn, practice, and track your
+              progress in one unified experience.
             </p>
           </div>
 
@@ -143,8 +151,12 @@ export default function HomePage() {
                   <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 flex items-center justify-center mb-4 group-hover:from-violet-600/30 group-hover:to-indigo-600/30 transition-all">
                     <Icon className="h-6 w-6 text-violet-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-100 mb-2">{feature.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{feature.description}</p>
+                  <h3 className="text-lg font-semibold text-slate-100 mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               );
             })}
@@ -167,22 +179,22 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                step: '01',
-                title: 'Define Your Goal',
+                step: "01",
+                title: "Define Your Goal",
                 description:
-                  'Tell us what you want to learn, your timeline, and how much time you can dedicate daily.',
+                  "Tell us what you want to learn, your timeline, and how much time you can dedicate daily.",
               },
               {
-                step: '02',
-                title: 'Get Your Roadmap',
+                step: "02",
+                title: "Get Your Roadmap",
                 description:
-                  'AI generates a personalized learning path with topics, resources, and practice exercises.',
+                  "AI generates a personalized learning path with topics, resources, and practice exercises.",
               },
               {
-                step: '03',
-                title: 'Learn & Track',
+                step: "03",
+                title: "Learn & Track",
                 description:
-                  'Follow your roadmap, practice coding, and track your progress with AI guidance.',
+                  "Follow your roadmap, practice coding, and track your progress with AI guidance.",
               },
             ].map((item, index) => (
               <div key={item.step} className="relative">
@@ -193,8 +205,12 @@ export default function HomePage() {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white text-xl font-bold mb-4 shadow-lg shadow-violet-500/25">
                     {item.step}
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-100 mb-2">{item.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{item.description}</p>
+                  <h3 className="text-xl font-semibold text-slate-100 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -207,13 +223,16 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
             <Users className="h-4 w-4 text-emerald-400" />
-            <span className="text-sm text-emerald-300">Join thousands of learners</span>
+            <span className="text-sm text-emerald-300">
+              Join thousands of learners
+            </span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-100 mb-6">
             Start Your Learning Journey Today
           </h2>
           <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
-            Create your personalized roadmap in minutes. No credit card required.
+            Create your personalized roadmap in minutes. No credit card
+            required.
           </p>
           <Link href="/register">
             <Button size="lg" className="text-base gap-2">
@@ -232,7 +251,9 @@ export default function HomePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600">
                 <Sparkles className="h-4 w-4 text-white" />
               </div>
-              <span className="text-lg font-bold text-slate-100">LearnPath</span>
+              <span className="text-lg font-bold text-slate-100">
+                LearnPath
+              </span>
             </div>
             <p className="text-sm text-slate-500">
               © {new Date().getFullYear()} LearnPath. All rights reserved.

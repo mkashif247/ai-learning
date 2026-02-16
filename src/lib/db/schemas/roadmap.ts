@@ -1,5 +1,11 @@
-import mongoose, { Document, Model, Schema, Types } from 'mongoose';
-import type { RoadmapGoal, SkillLevel, TimelineUnit, TopicStatus } from '@/types';
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
+
+import type {
+  RoadmapGoal,
+  SkillLevel,
+  TimelineUnit,
+  TopicStatus,
+} from "@/types";
 
 // ============================================
 // Sub-document interfaces
@@ -7,14 +13,14 @@ import type { RoadmapGoal, SkillLevel, TimelineUnit, TopicStatus } from '@/types
 interface IResource {
   title: string;
   url: string;
-  type: 'docs' | 'video' | 'article' | 'tutorial';
+  type: "docs" | "video" | "article" | "tutorial";
 }
 
 interface IPracticeQuestion {
   id: string;
   question: string;
-  type: 'coding' | 'quiz' | 'open-ended';
-  difficulty: 'easy' | 'medium' | 'hard';
+  type: "coding" | "quiz" | "open-ended";
+  difficulty: "easy" | "medium" | "hard";
   starterCode?: string;
   solution?: string;
   hints?: string[];
@@ -71,11 +77,11 @@ const resourceSchema = new Schema<IResource>(
     url: { type: String, required: true },
     type: {
       type: String,
-      enum: ['docs', 'video', 'article', 'tutorial'],
+      enum: ["docs", "video", "article", "tutorial"],
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const practiceQuestionSchema = new Schema<IPracticeQuestion>(
@@ -84,19 +90,19 @@ const practiceQuestionSchema = new Schema<IPracticeQuestion>(
     question: { type: String, required: true },
     type: {
       type: String,
-      enum: ['coding', 'quiz', 'open-ended'],
+      enum: ["coding", "quiz", "open-ended"],
       required: true,
     },
     difficulty: {
       type: String,
-      enum: ['easy', 'medium', 'hard'],
+      enum: ["easy", "medium", "hard"],
       required: true,
     },
     starterCode: { type: String },
     solution: { type: String },
     hints: [{ type: String }],
   },
-  { _id: false }
+  { _id: false },
 );
 
 const topicSchema = new Schema<ITopic>(
@@ -106,16 +112,16 @@ const topicSchema = new Schema<ITopic>(
     description: { type: String, required: true },
     status: {
       type: String,
-      enum: ['pending', 'in-progress', 'done'],
-      default: 'pending',
+      enum: ["pending", "in-progress", "done"],
+      default: "pending",
     },
     estimatedMinutes: { type: Number, required: true },
-    content: { type: String, default: '' },
+    content: { type: String, default: "" },
     resources: [resourceSchema],
     practiceQuestions: [practiceQuestionSchema],
     order: { type: Number, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const phaseSchema = new Schema<IPhase>(
@@ -126,7 +132,7 @@ const phaseSchema = new Schema<IPhase>(
     topics: [topicSchema],
     order: { type: Number, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const timelineSchema = new Schema<ITimeline>(
@@ -134,25 +140,25 @@ const timelineSchema = new Schema<ITimeline>(
     value: { type: Number, required: true },
     unit: {
       type: String,
-      enum: ['days', 'weeks', 'months'],
+      enum: ["days", "weeks", "months"],
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const roadmapSchema = new Schema<IRoadmap>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
       index: true,
     },
     title: { type: String, required: true },
     goal: {
       type: String,
-      enum: ['interview-prep', 'skill-learning'],
+      enum: ["interview-prep", "skill-learning"],
       required: true,
     },
     targetRole: { type: String, required: true },
@@ -161,20 +167,20 @@ const roadmapSchema = new Schema<IRoadmap>(
     hoursPerDay: { type: Number, required: true, min: 1, max: 24 },
     skillLevel: {
       type: String,
-      enum: ['beginner', 'intermediate', 'advanced'],
+      enum: ["beginner", "intermediate", "advanced"],
       required: true,
     },
     phases: [phaseSchema],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Compound index for user queries
 roadmapSchema.index({ userId: 1, createdAt: -1 });
 
 const Roadmap: Model<IRoadmap> =
-  mongoose.models.Roadmap || mongoose.model<IRoadmap>('Roadmap', roadmapSchema);
+  mongoose.models.Roadmap || mongoose.model<IRoadmap>("Roadmap", roadmapSchema);
 
 export default Roadmap;

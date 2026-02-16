@@ -1,46 +1,53 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
-  Sparkles,
-  Loader2,
-  Target,
   BookOpen,
-  Clock,
   ChevronRight,
+  Clock,
+  Loader2,
   Plus,
+  Sparkles,
+  Target,
   X,
-} from 'lucide-react';
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-type Goal = 'interview-prep' | 'skill-learning';
-type TimelineUnit = 'days' | 'weeks' | 'months';
-type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+type Goal = "interview-prep" | "skill-learning";
+type TimelineUnit = "days" | "weeks" | "months";
+type SkillLevel = "beginner" | "intermediate" | "advanced";
 
 export default function NewRoadmapPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Form state
-  const [goal, setGoal] = useState<Goal>('skill-learning');
-  const [targetRole, setTargetRole] = useState('');
+  const [goal, setGoal] = useState<Goal>("skill-learning");
+  const [targetRole, setTargetRole] = useState("");
   const [stack, setStack] = useState<string[]>([]);
-  const [stackInput, setStackInput] = useState('');
+  const [stackInput, setStackInput] = useState("");
   const [timelineValue, setTimelineValue] = useState(4);
-  const [timelineUnit, setTimelineUnit] = useState<TimelineUnit>('weeks');
+  const [timelineUnit, setTimelineUnit] = useState<TimelineUnit>("weeks");
   const [hoursPerDay, setHoursPerDay] = useState(2);
-  const [skillLevel, setSkillLevel] = useState<SkillLevel>('beginner');
+  const [skillLevel, setSkillLevel] = useState<SkillLevel>("beginner");
 
   const addStack = () => {
     if (stackInput.trim() && !stack.includes(stackInput.trim())) {
       setStack([...stack, stackInput.trim()]);
-      setStackInput('');
+      setStackInput("");
     }
   };
 
@@ -49,7 +56,7 @@ export default function NewRoadmapPage() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       addStack();
     }
@@ -57,19 +64,19 @@ export default function NewRoadmapPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (stack.length === 0) {
-      setError('Please add at least one technology/skill to learn');
+      setError("Please add at least one technology/skill to learn");
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch('/api/ai/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           goal,
           targetRole,
@@ -83,13 +90,13 @@ export default function NewRoadmapPage() {
       const data = await res.json();
 
       if (!data.success) {
-        setError(data.error || 'Failed to generate roadmap');
+        setError(data.error || "Failed to generate roadmap");
         return;
       }
 
       router.push(`/roadmaps/${data.data.id}`);
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -102,16 +109,15 @@ export default function NewRoadmapPage() {
           Create Your Learning Roadmap
         </h1>
         <p className="text-slate-400">
-          Tell us your goals and we&apos;ll generate a personalized learning path
+          Tell us your goals and we&apos;ll generate a personalized learning
+          path
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && (
-          <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
+        {error ? <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
             {error}
-          </div>
-        )}
+          </div> : null}
 
         {/* Goal Selection */}
         <Card>
@@ -122,16 +128,18 @@ export default function NewRoadmapPage() {
           <CardContent className="grid sm:grid-cols-2 gap-4">
             <button
               type="button"
-              onClick={() => setGoal('skill-learning')}
+              onClick={() => setGoal("skill-learning")}
               className={`p-4 rounded-xl border-2 text-left transition-all ${
-                goal === 'skill-learning'
-                  ? 'border-violet-500 bg-violet-500/10'
-                  : 'border-slate-700 hover:border-slate-600'
+                goal === "skill-learning"
+                  ? "border-violet-500 bg-violet-500/10"
+                  : "border-slate-700 hover:border-slate-600"
               }`}
             >
               <BookOpen
                 className={`h-6 w-6 mb-2 ${
-                  goal === 'skill-learning' ? 'text-violet-400' : 'text-slate-400'
+                  goal === "skill-learning"
+                    ? "text-violet-400"
+                    : "text-slate-400"
                 }`}
               />
               <h3 className="font-semibold text-slate-200">Learn New Skills</h3>
@@ -141,16 +149,18 @@ export default function NewRoadmapPage() {
             </button>
             <button
               type="button"
-              onClick={() => setGoal('interview-prep')}
+              onClick={() => setGoal("interview-prep")}
               className={`p-4 rounded-xl border-2 text-left transition-all ${
-                goal === 'interview-prep'
-                  ? 'border-violet-500 bg-violet-500/10'
-                  : 'border-slate-700 hover:border-slate-600'
+                goal === "interview-prep"
+                  ? "border-violet-500 bg-violet-500/10"
+                  : "border-slate-700 hover:border-slate-600"
               }`}
             >
               <Target
                 className={`h-6 w-6 mb-2 ${
-                  goal === 'interview-prep' ? 'text-violet-400' : 'text-slate-400'
+                  goal === "interview-prep"
+                    ? "text-violet-400"
+                    : "text-slate-400"
                 }`}
               />
               <h3 className="font-semibold text-slate-200">Interview Prep</h3>
@@ -181,7 +191,9 @@ export default function NewRoadmapPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Technologies & Skills</CardTitle>
-            <CardDescription>What do you want to learn or improve?</CardDescription>
+            <CardDescription>
+              What do you want to learn or improve?
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2">
@@ -235,7 +247,9 @@ export default function NewRoadmapPage() {
                   />
                   <select
                     value={timelineUnit}
-                    onChange={(e) => setTimelineUnit(e.target.value as TimelineUnit)}
+                    onChange={(e) =>
+                      setTimelineUnit(e.target.value as TimelineUnit)
+                    }
                     className="flex-1 h-11 rounded-lg border border-slate-700 bg-slate-800/50 px-3 text-sm text-slate-100"
                   >
                     <option value="days">Days</option>
@@ -272,25 +286,34 @@ export default function NewRoadmapPage() {
             <CardDescription>Where are you starting from?</CardDescription>
           </CardHeader>
           <CardContent className="grid sm:grid-cols-3 gap-3">
-            {(['beginner', 'intermediate', 'advanced'] as const).map((level) => (
-              <button
-                key={level}
-                type="button"
-                onClick={() => setSkillLevel(level)}
-                className={`p-3 rounded-lg border-2 text-center transition-all ${
-                  skillLevel === level
-                    ? 'border-violet-500 bg-violet-500/10'
-                    : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <span className="capitalize text-sm font-medium text-slate-200">{level}</span>
-              </button>
-            ))}
+            {(["beginner", "intermediate", "advanced"] as const).map(
+              (level) => (
+                <button
+                  key={level}
+                  type="button"
+                  onClick={() => setSkillLevel(level)}
+                  className={`p-3 rounded-lg border-2 text-center transition-all ${
+                    skillLevel === level
+                      ? "border-violet-500 bg-violet-500/10"
+                      : "border-slate-700 hover:border-slate-600"
+                  }`}
+                >
+                  <span className="capitalize text-sm font-medium text-slate-200">
+                    {level}
+                  </span>
+                </button>
+              ),
+            )}
           </CardContent>
         </Card>
 
         {/* Submit */}
-        <Button type="submit" size="lg" className="w-full gap-2" disabled={loading}>
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full gap-2"
+          disabled={loading}
+        >
           {loading ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" />

@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue,clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Merges Tailwind CSS classes with clsx
@@ -13,10 +13,10 @@ export const cn = (...inputs: ClassValue[]): string => {
  */
 export const formatDate = (date: Date | string): string => {
   const d = new Date(date);
-  return d.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 };
 
@@ -52,7 +52,7 @@ export const generateId = (): string => {
  */
 export const debounce = <T extends (...args: Parameters<T>) => void>(
   fn: T,
-  delay: number
+  delay: number,
 ): ((...args: Parameters<T>) => void) => {
   let timeoutId: ReturnType<typeof setTimeout>;
   return (...args: Parameters<T>) => {
@@ -71,13 +71,16 @@ export const capitalize = (str: string): string => {
 /**
  * Converts timeline to total days
  */
-export const timelineToDays = (value: number, unit: 'days' | 'weeks' | 'months'): number => {
+export const timelineToDays = (
+  value: number,
+  unit: "days" | "weeks" | "months",
+): number => {
   switch (unit) {
-    case 'days':
+    case "days":
       return value;
-    case 'weeks':
+    case "weeks":
       return value * 7;
-    case 'months':
+    case "months":
       return value * 30;
     default:
       return value;

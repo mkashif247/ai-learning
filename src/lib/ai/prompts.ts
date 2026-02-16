@@ -1,15 +1,17 @@
-import type { RoadmapGenerationInput } from '@/types';
+import type { RoadmapGenerationInput } from "@/types";
 
-export const getRoadmapGenerationPrompt = (input: RoadmapGenerationInput): string => {
+export const getRoadmapGenerationPrompt = (
+  input: RoadmapGenerationInput,
+): string => {
   const goalDescription =
-    input.goal === 'interview-prep'
-      ? 'preparing for technical interviews'
-      : 'learning and skill development';
+    input.goal === "interview-prep"
+      ? "preparing for technical interviews"
+      : "learning and skill development";
 
   const timelineInDays =
-    input.timeline.unit === 'days'
+    input.timeline.unit === "days"
       ? input.timeline.value
-      : input.timeline.unit === 'weeks'
+      : input.timeline.unit === "weeks"
         ? input.timeline.value * 7
         : input.timeline.value * 30;
 
@@ -19,7 +21,7 @@ export const getRoadmapGenerationPrompt = (input: RoadmapGenerationInput): strin
 
 **Goal:** ${goalDescription}
 **Target Role:** ${input.targetRole}
-**Technologies/Stack:** ${input.stack.join(', ')}
+**Technologies/Stack:** ${input.stack.join(", ")}
 **Timeline:** ${input.timeline.value} ${input.timeline.unit}
 **Daily Study Time:** ${input.hoursPerDay} hours/day
 **Total Available Hours:** ${totalHours} hours
@@ -78,13 +80,13 @@ Return ONLY the valid JSON object, no markdown formatting or code blocks.`;
 export const getTopicContentPrompt = (
   topicTitle: string,
   topicDescription: string,
-  stack: string[]
+  stack: string[],
 ): string => {
   return `Create detailed learning content for the following topic:
 
 **Topic:** ${topicTitle}
 **Description:** ${topicDescription}
-**Technologies:** ${stack.join(', ')}
+**Technologies:** ${stack.join(", ")}
 
 Provide a comprehensive explanation that includes:
 1. Clear explanation of the concept
@@ -104,9 +106,9 @@ export const getTutorPrompt = (
     roadmapTitle?: string;
     code?: string;
     language?: string;
-  }
+  },
 ): string => {
-  let contextInfo = '';
+  let contextInfo = "";
   if (context.roadmapTitle) {
     contextInfo += `\nRoadmap: ${context.roadmapTitle}`;
   }
@@ -117,7 +119,7 @@ export const getTutorPrompt = (
     contextInfo += `\nCurrent Topic: ${context.currentTopic}`;
   }
   if (context.code) {
-    contextInfo += `\n\nThe user is currently working on the following code:\n\`\`\`${context.language || ''}\n${context.code}\n\`\`\`\n`;
+    contextInfo += `\n\nThe user is currently working on the following code:\n\`\`\`${context.language || ""}\n${context.code}\n\`\`\`\n`;
   }
 
   return `You are an expert AI tutor helping a learner with their studies.${contextInfo}

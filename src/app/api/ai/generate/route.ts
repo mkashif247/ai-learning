@@ -1,22 +1,23 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { generateText } from 'ai';
-import { z } from 'zod';
-import { authOptions } from '@/lib/auth';
-import { getAIModel, getRoadmapGenerationPrompt } from '@/lib/ai';
-import { connectDB, Roadmap } from '@/lib/db';
-import type { RoadmapGoal, SkillLevel, TimelineUnit, Phase } from '@/types';
+import { generateText } from "ai";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { z } from "zod";
+
+import { getAIModel, getRoadmapGenerationPrompt } from "@/lib/ai";
+import { authOptions } from "@/lib/auth";
+import { connectDB, Roadmap } from "@/lib/db";
+import type { Phase,RoadmapGoal, SkillLevel, TimelineUnit } from "@/types";
 
 const generateSchema = z.object({
-  goal: z.enum(['interview-prep', 'skill-learning']),
+  goal: z.enum(["interview-prep", "skill-learning"]),
   targetRole: z.string().min(2),
   stack: z.array(z.string()).min(1),
   timeline: z.object({
     value: z.number().min(1),
-    unit: z.enum(['days', 'weeks', 'months']),
+    unit: z.enum(["days", "weeks", "months"]),
   }),
   hoursPerDay: z.number().min(1).max(24),
-  skillLevel: z.enum(['beginner', 'intermediate', 'advanced']),
+  skillLevel: z.enum(["beginner", "intermediate", "advanced"]),
 });
 
 export async function POST(request: Request) {
@@ -24,8 +25,8 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
@@ -35,8 +36,8 @@ export async function POST(request: Request) {
     if (!result.success) {
       const firstIssue = result.error.issues[0];
       return NextResponse.json(
-        { success: false, error: firstIssue?.message || 'Validation failed' },
-        { status: 400 }
+        { success: false, error: firstIssue?.message || "Validation failed" },
+        { status: 400 },
       );
     }
 
@@ -64,15 +65,18 @@ export async function POST(request: Request) {
     try {
       // Clean response - remove markdown code blocks if present
       const cleanedText = text
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
         .trim();
       roadmapData = JSON.parse(cleanedText);
     } catch {
-      console.error('Failed to parse AI response:', text);
+      console.error("Failed to parse AI response:", text);
       return NextResponse.json(
-        { success: false, error: 'Failed to generate roadmap. Please try again.' },
-        { status: 500 }
+        {
+          success: false,
+          error: "Failed to generate roadmap. Please try again.",
+        },
+        { status: 500 },
       );
     }
 
@@ -93,7 +97,7 @@ export async function POST(request: Request) {
         order: pIndex + 1,
         topics: phase.topics.map((topic, tIndex) => ({
           ...topic,
-          status: 'pending',
+          status: "pending",
           order: tIndex + 1,
         })),
       })),
@@ -107,10 +111,10 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('Roadmap generation error:', error);
+    console.error("Roadmap generation error:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to generate roadmap' },
-      { status: 500 }
+      { success: false, error: "Failed to generate roadmap" },
+      { status: 500 },
     );
   }
 }

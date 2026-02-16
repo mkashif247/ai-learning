@@ -1,60 +1,67 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkles, Mail, Lock, User, Loader2 } from 'lucide-react';
+import { Loader2,Lock, Mail, Sparkles, User } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       // Register user
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
 
       if (!data.success) {
-        setError(data.error || 'Registration failed');
+        setError(data.error || "Registration failed");
         setLoading(false);
         return;
       }
 
       // Auto sign in after registration
-      const result = await signIn('credentials', {
+      const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
       if (result?.error) {
-        setError('Account created. Please sign in.');
-        router.push('/login');
+        setError("Account created. Please sign in.");
+        router.push("/login");
       } else {
-        router.push('/dashboard');
+        router.push("/dashboard");
         router.refresh();
       }
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -66,22 +73,25 @@ export default function RegisterPage() {
 
       <Card className="relative w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="inline-flex items-center justify-center gap-2 mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center gap-2 mb-4"
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-500/25">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
           </Link>
           <CardTitle className="text-2xl">Create your account</CardTitle>
-          <CardDescription>Start your personalized learning journey</CardDescription>
+          <CardDescription>
+            Start your personalized learning journey
+          </CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+            {error ? <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                 {error}
-              </div>
-            )}
+              </div> : null}
 
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
@@ -131,7 +141,9 @@ export default function RegisterPage() {
                   minLength={6}
                 />
               </div>
-              <p className="text-xs text-slate-500">Must be at least 6 characters</p>
+              <p className="text-xs text-slate-500">
+                Must be at least 6 characters
+              </p>
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
@@ -141,14 +153,17 @@ export default function RegisterPage() {
                   Creating account...
                 </>
               ) : (
-                'Create Account'
+                "Create Account"
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm text-slate-400">
-            Already have an account?{' '}
-            <Link href="/login" className="text-violet-400 hover:text-violet-300 font-medium">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="text-violet-400 hover:text-violet-300 font-medium"
+            >
               Sign in
             </Link>
           </div>

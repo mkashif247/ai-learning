@@ -1,8 +1,8 @@
-import { createOpenAI } from '@ai-sdk/openai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import type { LanguageModel } from 'ai';
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
+import type { LanguageModel } from "ai";
 
-type AIProviderType = 'openai' | 'google';
+type AIProviderType = "openai" | "google";
 
 interface AIProviderConfig {
   provider: AIProviderType;
@@ -10,11 +10,11 @@ interface AIProviderConfig {
 }
 
 const getProviderConfig = (): AIProviderConfig => {
-  const provider = (process.env.AI_PROVIDER as AIProviderType) || 'openai';
+  const provider = (process.env.AI_PROVIDER as AIProviderType) || "openai";
 
   const modelMap: Record<AIProviderType, string> = {
-    openai: 'gpt-4o-mini',
-    google: 'gemini-1.5-flash',
+    openai: "gpt-4o-mini",
+    google: "gemini-1.5-flash",
   };
 
   return {
@@ -27,13 +27,13 @@ export const getAIModel = (): LanguageModel => {
   const config = getProviderConfig();
 
   switch (config.provider) {
-    case 'google': {
+    case "google": {
       const google = createGoogleGenerativeAI({
         apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
       });
       return google(config.model);
     }
-    case 'openai':
+    case "openai":
     default: {
       const openai = createOpenAI({
         apiKey: process.env.OPENAI_API_KEY,
@@ -44,5 +44,5 @@ export const getAIModel = (): LanguageModel => {
 };
 
 export const getCurrentProvider = (): AIProviderType => {
-  return (process.env.AI_PROVIDER as AIProviderType) || 'openai';
+  return (process.env.AI_PROVIDER as AIProviderType) || "openai";
 };

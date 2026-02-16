@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { connectDB, Roadmap } from '@/lib/db';
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/lib/auth";
+import { connectDB, Roadmap } from "@/lib/db";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -13,8 +14,8 @@ export async function GET(request: Request, { params }: RouteParams) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
@@ -28,8 +29,8 @@ export async function GET(request: Request, { params }: RouteParams) {
 
     if (!roadmap) {
       return NextResponse.json(
-        { success: false, error: 'Roadmap not found' },
-        { status: 404 }
+        { success: false, error: "Roadmap not found" },
+        { status: 404 },
       );
     }
 
@@ -38,10 +39,10 @@ export async function GET(request: Request, { params }: RouteParams) {
       data: roadmap,
     });
   } catch (error) {
-    console.error('Error fetching roadmap:', error);
+    console.error("Error fetching roadmap:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch roadmap' },
-      { status: 500 }
+      { success: false, error: "Failed to fetch roadmap" },
+      { status: 500 },
     );
   }
 }
@@ -52,8 +53,8 @@ export async function DELETE(request: Request, { params }: RouteParams) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { success: false, error: "Unauthorized" },
+        { status: 401 },
       );
     }
 
@@ -67,17 +68,17 @@ export async function DELETE(request: Request, { params }: RouteParams) {
 
     if (result.deletedCount === 0) {
       return NextResponse.json(
-        { success: false, error: 'Roadmap not found' },
-        { status: 404 }
+        { success: false, error: "Roadmap not found" },
+        { status: 404 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting roadmap:', error);
+    console.error("Error deleting roadmap:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to delete roadmap' },
-      { status: 500 }
+      { success: false, error: "Failed to delete roadmap" },
+      { status: 500 },
     );
   }
 }

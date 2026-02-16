@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useChat } from 'ai/react';
-import { X, Send, Bot, User, Code2, Loader2, Play } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { CodeEditor } from '@/components/editor/code-editor';
-import { cn } from '@/lib/utils';
-import type { Topic } from '@/types';
+import { useChat } from "ai/react";
+import { Bot, Code2, Loader2,Send, User, X } from "lucide-react";
+import { useState } from "react";
+
+import { CodeEditor } from "@/components/editor/code-editor";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import type { Topic } from "@/types";
 
 interface PracticeModalProps {
   topic: Topic;
@@ -16,24 +17,31 @@ interface PracticeModalProps {
   onClose: () => void;
 }
 
-export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: PracticeModalProps) => {
+export const PracticeModal = ({
+  topic,
+  roadmapTitle,
+  phaseTitle,
+  onClose,
+}: PracticeModalProps) => {
   const [code, setCode] = useState(
-    topic.practiceQuestions?.[0]?.starterCode || '// Write your solution here\n'
+    topic.practiceQuestions?.[0]?.starterCode ||
+      "// Write your solution here\n",
   );
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState("");
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/ai/tutor',
-    body: {
-      context: {
-        roadmapTitle,
-        currentPhase: phaseTitle,
-        currentTopic: topic.title,
-        code,
-        language: 'javascript', // Default to JS for now
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({
+      api: "/api/ai/tutor",
+      body: {
+        context: {
+          roadmapTitle,
+          currentPhase: phaseTitle,
+          currentTopic: topic.title,
+          code,
+          language: "javascript", // Default to JS for now
+        },
       },
-    },
-  });
+    });
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950 flex flex-col animate-in fade-in duration-200">
@@ -44,11 +52,18 @@ export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: Prac
             <Code2 className="h-5 w-5 text-violet-400" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-slate-100">Practice Mode</h2>
+            <h2 className="text-lg font-semibold text-slate-100">
+              Practice Mode
+            </h2>
             <p className="text-sm text-slate-400">{topic.title}</p>
           </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          className="rounded-full"
+        >
           <X className="h-5 w-5" />
         </Button>
       </div>
@@ -78,17 +93,17 @@ export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: Prac
                 <div
                   key={m.id}
                   className={cn(
-                    'flex gap-3',
-                    m.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+                    "flex gap-3",
+                    m.role === "user" ? "flex-row-reverse" : "flex-row",
                   )}
                 >
                   <div
                     className={cn(
-                      'h-8 w-8 rounded-full flex items-center justify-center shrink-0',
-                      m.role === 'user' ? 'bg-violet-500' : 'bg-emerald-600'
+                      "h-8 w-8 rounded-full flex items-center justify-center shrink-0",
+                      m.role === "user" ? "bg-violet-500" : "bg-emerald-600",
                     )}
                   >
-                    {m.role === 'user' ? (
+                    {m.role === "user" ? (
                       <User className="h-4 w-4 text-white" />
                     ) : (
                       <Bot className="h-4 w-4 text-white" />
@@ -96,22 +111,20 @@ export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: Prac
                   </div>
                   <div
                     className={cn(
-                      'rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed',
-                      m.role === 'user'
-                        ? 'bg-violet-500/10 text-violet-100'
-                        : 'bg-slate-800 text-slate-200'
+                      "rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed",
+                      m.role === "user"
+                        ? "bg-violet-500/10 text-violet-100"
+                        : "bg-slate-800 text-slate-200",
                     )}
                   >
                     {m.content}
                   </div>
                 </div>
               ))}
-              {isLoading && (
-                <div className="flex items-center gap-2 text-slate-500 text-sm ml-11">
+              {isLoading ? <div className="flex items-center gap-2 text-slate-500 text-sm ml-11">
                   <Loader2 className="h-3 w-3 animate-spin" />
                   Thinking...
-                </div>
-              )}
+                </div> : null}
             </div>
           </ScrollArea>
 
@@ -126,7 +139,12 @@ export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: Prac
                 value={input}
                 onChange={handleInputChange}
               />
-              <Button size="sm" size="icon" type="submit" disabled={isLoading || !input.trim()}>
+              <Button
+                size="sm"
+                size="icon"
+                type="submit"
+                disabled={isLoading || !input.trim()}
+              >
                 <Send className="h-4 w-4" />
               </Button>
             </form>
@@ -136,17 +154,19 @@ export const PracticeModal = ({ topic, roadmapTitle, phaseTitle, onClose }: Prac
         {/* Right: Code Editor */}
         <div className="flex-1 flex flex-col bg-slate-950">
           <div className="flex-1 p-6 overflow-hidden">
-             {topic.practiceQuestions?.[0] && (
-               <div className="mb-6 bg-slate-900/50 rounded-lg p-4 border border-slate-800">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-violet-500/20 text-violet-300">Challenge</span>
-                    <h3 className="font-medium text-slate-200">
-                      {topic.practiceQuestions[0].title || 'Coding Practice'}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-slate-400">{topic.practiceQuestions[0].question}</p>
-               </div>
-             )}
+            {topic.practiceQuestions?.[0] ? <div className="mb-6 bg-slate-900/50 rounded-lg p-4 border border-slate-800">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded bg-violet-500/20 text-violet-300">
+                    Challenge
+                  </span>
+                  <h3 className="font-medium text-slate-200">
+                    {topic.practiceQuestions[0].title || "Coding Practice"}
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-400">
+                  {topic.practiceQuestions[0].question}
+                </p>
+              </div> : null}
 
             <div className="h-full pb-20">
               <CodeEditor
