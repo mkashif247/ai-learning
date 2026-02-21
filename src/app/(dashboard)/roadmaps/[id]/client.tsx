@@ -67,9 +67,7 @@ export default function RoadmapDetailClient({
       if (data.success) {
         router.push("/roadmaps");
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Delete failed:", error);
+    } catch (_error) {
     } finally {
       setDeleting(false);
     }
@@ -103,9 +101,7 @@ export default function RoadmapDetailClient({
       }
 
       await readStream(reader, setTutorResponse);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Tutor error:", error);
+    } catch (_error) {
       setTutorResponse("Sorry, I encountered an error. Please try again.");
     } finally {
       setTutorLoading(false);
@@ -130,15 +126,13 @@ export default function RoadmapDetailClient({
       />
 
       {showTutor ? (
-        <>
-          <TutorPanel
-            tutorResponse={tutorResponse}
-            tutorMessage={tutorMessage}
-            tutorLoading={tutorLoading}
-            setTutorMessage={setTutorMessage}
-            handleTutorSubmit={handleTutorSubmit}
-          />
-        </>
+        <TutorPanel
+          tutorResponse={tutorResponse}
+          tutorMessage={tutorMessage}
+          tutorLoading={tutorLoading}
+          setTutorMessage={setTutorMessage}
+          handleTutorSubmit={handleTutorSubmit}
+        />
       ) : null}
 
       <RoadmapView

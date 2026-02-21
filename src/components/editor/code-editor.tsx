@@ -19,10 +19,10 @@ interface CodeEditorProps {
 
 async function executeJavaScript(codeToRun: string): Promise<string> {
   const logs: string[] = [];
-  // eslint-disable-next-line no-console
+  // biome-ignore lint/suspicious/noConsole: We intentionally override console.log here to capture user script outputs
   const originalLog = console.log;
 
-  // eslint-disable-next-line no-console
+  // biome-ignore lint/suspicious/noConsole: Overriding console.log for simulated execution
   console.log = (...args: unknown[]): void => {
     logs.push(args.map((arg) => String(arg)).join(" "));
   };
@@ -36,7 +36,7 @@ async function executeJavaScript(codeToRun: string): Promise<string> {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(errorMessage);
   } finally {
-    // eslint-disable-next-line no-console
+    // biome-ignore lint/suspicious/noConsole: Reverting back to original
     console.log = originalLog;
   }
 }

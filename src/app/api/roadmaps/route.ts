@@ -56,9 +56,7 @@ export async function GET(): Promise<NextResponse> {
       success: true,
       data: roadmapsWithProgress,
     });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Error fetching roadmaps:", error);
+  } catch (_error) {
     return NextResponse.json(
       { success: false, error: "Failed to fetch roadmaps" },
       { status: 500 },

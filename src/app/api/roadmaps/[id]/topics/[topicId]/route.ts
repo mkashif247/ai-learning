@@ -65,9 +65,7 @@ export async function PATCH(
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Error updating topic:", error);
+  } catch (_error) {
     return NextResponse.json(
       { success: false, error: "Failed to update topic" },
       { status: 500 },

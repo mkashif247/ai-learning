@@ -78,7 +78,8 @@ function HeroSection(): React.JSX.Element {
   return (
     <section className="relative pt-32 pb-20 px-4 hero-gradient overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-20" />
-      <div className="relative max-w-5xl mx-auto text-center">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 text-center">
+        <div className="absolute inset-0 bg-linear-to-br from-violet-500/10 to-transparent blur-3xl -z-10" />
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
           <Sparkles className="h-4 w-4 text-violet-400" />
           <span className="text-sm text-violet-300">
@@ -88,7 +89,7 @@ function HeroSection(): React.JSX.Element {
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-100 mb-6 leading-tight">
           Master Any Skill with{" "}
-          <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
             Personalized Roadmaps
           </span>
         </h1>
@@ -156,7 +157,8 @@ function FeaturesSection(): React.JSX.Element {
                 key={feature.title}
                 className="group p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50 hover:border-violet-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/5"
               >
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 flex items-center justify-center mb-4 group-hover:from-violet-600/30 group-hover:to-indigo-600/30 transition-all">
+                <div className="absolute inset-0 bg-linear-to-r from-violet-500 to-indigo-500 rounded-full blur-xl opacity-20 animate-pulse" />
+                <div className="relative h-12 w-12 rounded-xl bg-linear-to-br from-violet-600/20 to-indigo-600/20 flex items-center justify-center mb-4 group-hover:from-violet-600/30 group-hover:to-indigo-600/30 transition-all">
                   <Icon className="h-6 w-6 text-violet-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-100 mb-2">
@@ -210,10 +212,10 @@ function HowItWorksSection(): React.JSX.Element {
           ].map((item, index) => (
             <div key={item.step} className="relative">
               {index < 2 && (
-                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-violet-500/50 to-transparent" />
+                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-linear-to-r from-violet-500/50 to-transparent" />
               )}
               <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white text-xl font-bold mb-4 shadow-lg shadow-violet-500/25">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-violet-600 to-indigo-600 text-white text-xl font-bold mb-4 shadow-lg shadow-violet-500/25">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-semibold text-slate-100 mb-2">

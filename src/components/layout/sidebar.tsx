@@ -3,7 +3,7 @@
 import {
   BookOpen,
   LayoutDashboard,
-  Map,
+  Map as MapIcon,
   PlusCircle,
   Settings,
   Trophy,
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 const sidebarItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/roadmaps", label: "My Roadmaps", icon: Map },
+  { href: "/roadmaps", label: "My Roadmaps", icon: MapIcon },
   { href: "/roadmaps/new", label: "Create Roadmap", icon: PlusCircle },
   { href: "/learn", label: "Learning", icon: BookOpen },
   { href: "/achievements", label: "Achievements", icon: Trophy },
@@ -65,7 +65,10 @@ export const Sidebar = (): React.JSX.Element => {
           <p className="text-xs text-slate-500 mb-3">
             Unlock unlimited AI features
           </p>
-          <button className="w-full py-2 text-xs font-medium rounded-lg bg-slate-100 text-slate-900 hover:bg-white transition-colors">
+          <button
+            type="button"
+            className="w-full py-2 text-xs font-medium rounded-lg bg-slate-100 text-slate-900 hover:bg-white transition-colors"
+          >
             Upgrade
           </button>
         </div>

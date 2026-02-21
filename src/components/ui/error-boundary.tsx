@@ -29,11 +29,7 @@ export class ErrorBoundary extends Component<
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // TODO: Send to Sentry in production
-    // eslint-disable-next-line no-console
-    console.error("[ErrorBoundary]", error, errorInfo);
-  }
+  componentDidCatch(_error: Error, _errorInfo: ErrorInfo): void {}
 
   handleReset = (): void => {
     this.setState({ hasError: false, error: null });
@@ -54,7 +50,10 @@ export class ErrorBoundary extends Component<
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2}
+              role="img"
+              aria-label="Error icon"
             >
+              <title>Error Details Placeholder</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

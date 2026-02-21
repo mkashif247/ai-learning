@@ -94,10 +94,11 @@ export const RoadmapView = ({
               <AccordionContent>
                 <div className="px-6 pb-6 pt-2 space-y-3">
                   {phase.topics.map((topic) => (
-                    <div
+                    <button
+                      type="button"
                       key={topic.id}
                       className={cn(
-                        "group flex items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer",
+                        "group flex w-full text-left items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer",
                         topic.status === "done"
                           ? "bg-emerald-500/5 border-emerald-500/20"
                           : "bg-zinc-900/50 border-zinc-800/50 hover:border-zinc-700 hover:bg-zinc-900",
@@ -139,7 +140,7 @@ export const RoadmapView = ({
                         </span>
                         <ChevronRight className="h-4 w-4" />
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </AccordionContent>
@@ -169,8 +170,12 @@ export const TopicContent = ({
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
       <div
-        className="w-full max-w-4xl h-[85vh] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+        className="w-full max-w-4xl h-[85vh] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-left"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="topic-title"
       >
         {/* Header */}
         <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900/50">

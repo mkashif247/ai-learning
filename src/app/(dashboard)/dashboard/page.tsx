@@ -2,7 +2,7 @@ import {
   BookOpen,
   ChevronRight,
   Clock,
-  Map,
+  Map as MapIcon,
   PlusCircle,
   Sparkles,
   Target,
@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
   const stats = [
-    { label: "Active Roadmaps", value: "0", icon: Map, color: "violet" },
+    { label: "Active Roadmaps", value: "0", icon: MapIcon, color: "violet" },
     { label: "Topics Completed", value: "0", icon: Target, color: "emerald" },
     { label: "Hours Learned", value: "0", icon: Clock, color: "amber" },
     {
@@ -156,7 +156,7 @@ function ActiveRoadmaps(): React.JSX.Element {
       <CardContent>
         <div className="text-center py-12">
           <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
-            <Map className="h-8 w-8 text-violet-400" />
+            <MapIcon className="h-8 w-8 text-violet-400" />
           </div>
           <h3 className="text-lg font-medium text-slate-200 mb-2">
             No roadmaps yet

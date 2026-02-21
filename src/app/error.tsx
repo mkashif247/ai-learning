@@ -17,10 +17,7 @@ export default function ErrorPage({
   reset,
 }: ErrorPageProps): React.JSX.Element {
   useEffect(() => {
-    // TODO: Log to Sentry in production
-    // eslint-disable-next-line no-console
-    console.error("[AppError]", error);
-  }, [error]);
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-slate-950 p-8 text-center">
@@ -31,7 +28,10 @@ export default function ErrorPage({
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          role="img"
+          aria-label="Error icon"
         >
+          <title>Error Details Placeholder</title>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

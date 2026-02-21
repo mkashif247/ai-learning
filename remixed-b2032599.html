@@ -393,17 +393,27 @@
       </div>
 
       <div class="nav-tabs">
-        <button class="nav-tab active" onclick="switchTrack('frontend')">
+        <button
+          type="button"
+          class="nav-tab active"
+          onclick="switchTrack('frontend')"
+        >
           Frontend Track
         </button>
-        <button class="nav-tab" onclick="switchTrack('backend')">
+        <button type="button" class="nav-tab" onclick="switchTrack('backend')">
           Backend Track
         </button>
-        <button class="nav-tab" onclick="switchTrack('ai')">AI/ML Track</button>
-        <button class="nav-tab" onclick="switchTrack('devops')">
+        <button type="button" class="nav-tab" onclick="switchTrack('ai')">
+          AI/ML Track
+        </button>
+        <button type="button" class="nav-tab" onclick="switchTrack('devops')">
           DevOps & Scale
         </button>
-        <button class="nav-tab" onclick="switchTrack('interview')">
+        <button
+          type="button"
+          class="nav-tab"
+          onclick="switchTrack('interview')"
+        >
           Interview Prep
         </button>
       </div>
@@ -3374,7 +3384,7 @@
                     </li>
                     <li>
                       <strong>Weeks 9-12:</strong> 2 Medium/day, focus on timing
-                      (< 30 min)
+                      (&lt; 30 min)
                     </li>
                     <li>
                       <strong>Mock Interviews:</strong> 2 per week from week 6
@@ -3625,7 +3635,7 @@
               <div class="schedule-item">
                 <h4>Weeks 9-12: Advanced</h4>
                 <p>
-                  <strong>Daily:</strong> 2 Medium + 1 Hard/week, timed (< 30
+                  <strong>Daily:</strong> 2 Medium + 1 Hard/week, timed (&lt; 30
                   min)
                 </p>
                 <p>
@@ -3696,7 +3706,7 @@
     </div>
 
     <script>
-      function switchTrack(trackId) {
+      function _switchTrack(trackId) {
         // Hide all tracks
         document.querySelectorAll(".track").forEach((track) => {
           track.classList.remove("active");
@@ -3722,13 +3732,13 @@
         }
       }
 
-      function toggleLevel(header) {
+      function _toggleLevel(header) {
         const content = header.nextElementSibling;
         content.classList.toggle("active");
       }
 
       // Open first level of first track by default
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", () => {
         const firstLevel = document.querySelector(
           ".track.active .level-content",
         );

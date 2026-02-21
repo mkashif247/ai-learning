@@ -67,9 +67,7 @@ export async function POST(request: Request): Promise<NextResponse | Response> {
         "Cache-Control": "no-cache",
       },
     });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Tutor error:", error);
+  } catch (_error) {
     return NextResponse.json(
       { success: false, error: "Failed to get response" },
       { status: 500 },

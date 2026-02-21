@@ -2,7 +2,7 @@ import {
   BookOpen,
   ChevronRight,
   Clock,
-  Map,
+  Map as MapIcon,
   PlusCircle,
   Target,
 } from "lucide-react";
@@ -95,7 +95,7 @@ export default async function RoadmapsPage() {
           <CardContent className="py-16">
             <div className="text-center">
               <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
-                <Map className="h-8 w-8 text-violet-400" />
+                <MapIcon className="h-8 w-8 text-violet-400" />
               </div>
               <h3 className="text-lg font-medium text-slate-200 mb-2">
                 No roadmaps yet

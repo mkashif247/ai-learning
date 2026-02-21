@@ -70,8 +70,6 @@ export async function POST(request: Request): Promise<NextResponse> {
         .trim();
       roadmapData = JSON.parse(cleanedText);
     } catch {
-      // eslint-disable-next-line no-console
-      console.error("Failed to parse AI response:", text);
       return NextResponse.json(
         {
           success: false,
@@ -111,9 +109,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         title: roadmap.title,
       },
     });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Roadmap generation error:", error);
+  } catch (_error) {
     return NextResponse.json(
       { success: false, error: "Failed to generate roadmap" },
       { status: 500 },

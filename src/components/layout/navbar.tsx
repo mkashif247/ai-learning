@@ -41,7 +41,7 @@ export const Navbar = (): React.JSX.Element => {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-600 text-white">
               <Sparkles className="h-4 w-4" />
             </div>
-            <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
+            <span className="text-lg font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-white/70">
               LearnPath
             </span>
           </Link>
@@ -62,7 +62,10 @@ export const Navbar = (): React.JSX.Element => {
                 <div className="h-4 w-px bg-white/10" />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-2 outline-none p-1 pr-2 rounded-full hover:bg-white/5 transition-colors">
+                    <button
+                      type="button"
+                      className="flex items-center gap-2 outline-none p-1 pr-2 rounded-full hover:bg-white/5 transition-colors"
+                    >
                       <Avatar className="h-8 w-8 border border-white/10">
                         <AvatarFallback className="bg-slate-900 text-xs text-slate-400">
                           {getInitials(session.user.name || "U")}
@@ -125,6 +128,7 @@ export const Navbar = (): React.JSX.Element => {
 
           {/* Mobile menu button */}
           <button
+            type="button"
             className="md:hidden p-2 text-slate-400 hover:text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >

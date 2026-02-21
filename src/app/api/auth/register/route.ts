@@ -54,9 +54,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         email: user.email,
       },
     });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Registration error:", error);
+  } catch (_error) {
     return NextResponse.json(
       { success: false, error: "Failed to create account" },
       { status: 500 },
