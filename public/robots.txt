@@ -1,0 +1,12 @@
+# LearnPath — AI-Powered Learning Roadmaps
+# https://learnpath.dev
+
+User-agent: *
+Allow: /
+
+# Block private routes
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /roadmaps/
+
+Sitemap: https://learnpath.dev/sitemap.xml

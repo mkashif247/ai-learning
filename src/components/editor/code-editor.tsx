@@ -1,8 +1,8 @@
 "use client";
 
-import { Check, Loader2,Play, RotateCcw, X } from "lucide-react";
+import { Check, Loader2, Play, RotateCcw, X } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useCallback,useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,12 +17,36 @@ interface CodeEditorProps {
   onRun?: (code: string, output: string) => void;
 }
 
+async function executeJavaScript(codeToRun: string): Promise<string> {
+  const logs: string[] = [];
+  // eslint-disable-next-line no-console
+  const originalLog = console.log;
+
+  // eslint-disable-next-line no-console
+  console.log = (...args: unknown[]): void => {
+    logs.push(args.map((arg) => String(arg)).join(" "));
+  };
+
+  try {
+    const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor;
+    const fn = new AsyncFunction(codeToRun);
+    await fn();
+    return logs.join("\n") || "Code executed successfully (no output)";
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(errorMessage);
+  } finally {
+    // eslint-disable-next-line no-console
+    console.log = originalLog;
+  }
+}
+
 export const CodeEditor = ({
   initialCode = "// Write your code here\n",
   language = "javascript",
   expectedOutput,
   onRun,
-}: CodeEditorProps) => {
+}: CodeEditorProps): React.JSX.Element => {
   const [code, setCode] = useState(initialCode);
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
@@ -34,54 +58,33 @@ export const CodeEditor = ({
     setIsCorrect(null);
 
     try {
-      // For JavaScript, we can run in browser
       if (language === "javascript" || language === "typescript") {
-        const logs: string[] = [];
-        const originalLog = console.log;
+        const result = await executeJavaScript(code);
+        setOutput(result);
 
-        // Override console.log to capture output
-        console.log = (...args: unknown[]) => {
-          logs.push(args.map((arg) => String(arg)).join(" "));
-        };
+        if (expectedOutput) {
+          setIsCorrect(result.trim() === expectedOutput.trim());
+        }
 
-        try {
-          // Create a safe execution context
-          const AsyncFunction = Object.getPrototypeOf(
-            async function () {},
-          ).constructor;
-          const fn = new AsyncFunction(code);
-          await fn();
-
-          const result = logs.join("\n");
-          setOutput(result || "Code executed successfully (no output)");
-
-          if (expectedOutput) {
-            const correct = result.trim() === expectedOutput.trim();
-            setIsCorrect(correct);
-          }
-
-          if (onRun) {
-            onRun(code, result);
-          }
-        } catch (error) {
-          const errorMessage =
-            error instanceof Error ? error.message : String(error);
-          setOutput(`Error: ${errorMessage}`);
-          setIsCorrect(false);
-        } finally {
-          console.log = originalLog;
+        if (onRun) {
+          onRun(code, result);
         }
       } else {
         setOutput(
           `Language "${language}" execution is not supported in browser.\nPlease test locally.`,
         );
       }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      setOutput(`Error: ${errorMessage}`);
+      setIsCorrect(false);
     } finally {
       setRunning(false);
     }
   }, [code, language, expectedOutput, onRun]);
 
-  const resetCode = () => {
+  const resetCode = (): void => {
     setCode(initialCode);
     setOutput("");
     setIsCorrect(null);
@@ -150,7 +153,8 @@ export const CodeEditor = ({
       </div>
 
       {/* Output */}
-      {output ? <div className="border-t border-slate-800">
+      {output ? (
+        <div className="border-t border-slate-800">
           <div className="px-4 py-2 bg-slate-800/50 text-xs font-medium text-slate-400">
             Output
           </div>
@@ -161,17 +165,20 @@ export const CodeEditor = ({
           >
             {output}
           </pre>
-        </div> : null}
+        </div>
+      ) : null}
 
       {/* Expected Output (if provided) */}
-      {expectedOutput ? <div className="border-t border-slate-800">
+      {expectedOutput ? (
+        <div className="border-t border-slate-800">
           <div className="px-4 py-2 bg-slate-800/50 text-xs font-medium text-slate-400">
             Expected Output
           </div>
           <pre className="p-4 text-sm text-slate-400 overflow-x-auto">
             {expectedOutput}
           </pre>
-        </div> : null}
+        </div>
+      ) : null}
     </div>
   );
 };

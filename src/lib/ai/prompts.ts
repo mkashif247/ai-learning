@@ -1,3 +1,4 @@
+import { timelineToDays } from "@/lib/utils";
 import type { RoadmapGenerationInput } from "@/types";
 
 export const getRoadmapGenerationPrompt = (
@@ -8,12 +9,10 @@ export const getRoadmapGenerationPrompt = (
       ? "preparing for technical interviews"
       : "learning and skill development";
 
-  const timelineInDays =
-    input.timeline.unit === "days"
-      ? input.timeline.value
-      : input.timeline.unit === "weeks"
-        ? input.timeline.value * 7
-        : input.timeline.value * 30;
+  const timelineInDays = timelineToDays(
+    input.timeline.value,
+    input.timeline.unit,
+  );
 
   const totalHours = timelineInDays * input.hoursPerDay;
 

@@ -19,7 +19,7 @@ const tutorSchema = z.object({
     .optional(),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse | Response> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     // Return streaming response
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
-      async start(controller) {
+      async start(controller): Promise<void> {
         for await (const chunk of textStream) {
           controller.enqueue(encoder.encode(chunk));
         }
@@ -68,6 +68,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Tutor error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to get response" },

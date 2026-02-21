@@ -10,7 +10,11 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
     | "outline";
 }
 
-const Badge = ({ className, variant = "default", ...props }: BadgeProps) => {
+const Badge = ({
+  className,
+  variant = "default",
+  ...props
+}: BadgeProps): React.JSX.Element => {
   return (
     <span
       className={cn(

@@ -10,7 +10,7 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const body = await request.json();
 
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Registration error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to create account" },

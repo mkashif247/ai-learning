@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { connectDB, Roadmap } from "@/lib/db";
 
 // GET - List user's roadmaps
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -57,6 +57,7 @@ export async function GET() {
       data: roadmapsWithProgress,
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching roadmaps:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch roadmaps" },

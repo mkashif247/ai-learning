@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  ChevronDown,
-  LogOut,
-  Menu,
-  Sparkles,
-} from "lucide-react";
+import { ChevronDown, LogOut, Menu, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { signOut,useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -21,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const Navbar = () => {
+export const Navbar = (): React.JSX.Element => {
   const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

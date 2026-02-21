@@ -22,7 +22,7 @@ const sidebarItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-export const Sidebar = () => {
+export const Sidebar = (): React.JSX.Element => {
   const pathname = usePathname();
 
   return (

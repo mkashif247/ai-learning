@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { type Document, type Model, Schema } from "mongoose";
 
 export interface IUser extends Document {
   email: string;
@@ -37,8 +37,7 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-// Index for faster email lookups
-userSchema.index({ email: 1 });
+// unique: true on email already creates an index
 
 const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", userSchema);

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getAIModel, getRoadmapGenerationPrompt } from "@/lib/ai";
 import { authOptions } from "@/lib/auth";
 import { connectDB, Roadmap } from "@/lib/db";
-import type { Phase,RoadmapGoal, SkillLevel, TimelineUnit } from "@/types";
+import type { Phase, RoadmapGoal, SkillLevel, TimelineUnit } from "@/types";
 
 const generateSchema = z.object({
   goal: z.enum(["interview-prep", "skill-learning"]),
@@ -20,7 +20,7 @@ const generateSchema = z.object({
   skillLevel: z.enum(["beginner", "intermediate", "advanced"]),
 });
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -70,6 +70,7 @@ export async function POST(request: Request) {
         .trim();
       roadmapData = JSON.parse(cleanedText);
     } catch {
+      // eslint-disable-next-line no-console
       console.error("Failed to parse AI response:", text);
       return NextResponse.json(
         {
@@ -111,6 +112,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Roadmap generation error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to generate roadmap" },

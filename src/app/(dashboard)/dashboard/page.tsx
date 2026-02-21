@@ -40,173 +40,199 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
-            Welcome back, {session?.user?.name?.split(" ")[0] || "Learner"}! 👋
-          </h1>
-          <p className="text-slate-400 mt-1">
-            Track your progress and continue learning
-          </p>
-        </div>
-        <Link href="/roadmaps/new">
-          <Button className="gap-2">
-            <PlusCircle className="h-4 w-4" />
-            Create Roadmap
-          </Button>
-        </Link>
-      </div>
+      <WelcomeHeader
+        userName={session?.user?.name?.split(" ")[0] || "Learner"}
+      />
+      <StatsGrid stats={stats} />
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.label}>
-              <CardContent className="p-5">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`h-10 w-10 rounded-lg flex items-center justify-center bg-${stat.color}-500/10`}
-                    style={{
-                      backgroundColor:
-                        stat.color === "violet"
-                          ? "rgba(139, 92, 246, 0.1)"
-                          : stat.color === "emerald"
-                            ? "rgba(16, 185, 129, 0.1)"
-                            : stat.color === "amber"
-                              ? "rgba(245, 158, 11, 0.1)"
-                              : "rgba(59, 130, 246, 0.1)",
-                    }}
-                  >
-                    <Icon
-                      className="h-5 w-5"
-                      style={{
-                        color:
-                          stat.color === "violet"
-                            ? "#a78bfa"
-                            : stat.color === "emerald"
-                              ? "#34d399"
-                              : stat.color === "amber"
-                                ? "#fbbf24"
-                                : "#60a5fa",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-100">
-                      {stat.value}
-                    </p>
-                    <p className="text-xs text-slate-500">{stat.label}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Main Content Grid */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Active Roadmaps */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle className="text-lg">Your Roadmaps</CardTitle>
-                <CardDescription>Continue where you left off</CardDescription>
-              </div>
-              <Link href="/roadmaps">
-                <Button variant="ghost" size="sm" className="gap-1">
-                  View All
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </CardHeader>
-            <CardContent>
-              {/* Empty State */}
-              <div className="text-center py-12">
-                <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
-                  <Map className="h-8 w-8 text-violet-400" />
-                </div>
-                <h3 className="text-lg font-medium text-slate-200 mb-2">
-                  No roadmaps yet
-                </h3>
-                <p className="text-sm text-slate-400 mb-4 max-w-sm mx-auto">
-                  Create your first AI-powered roadmap to start your learning
-                  journey
-                </p>
-                <Link href="/roadmaps/new">
-                  <Button className="gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    Generate Roadmap
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+          <ActiveRoadmaps />
         </div>
-
-        {/* Quick Actions & Progress */}
         <div className="space-y-6">
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link href="/roadmaps/new" className="block">
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
-                  <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
-                    <Sparkles className="h-5 w-5 text-violet-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-200">
-                      Generate Roadmap
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      Create AI-powered learning path
-                    </p>
-                  </div>
-                </div>
-              </Link>
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer opacity-50">
-                <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                  <BookOpen className="h-5 w-5 text-emerald-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-slate-200">
-                    Browse Templates
-                  </p>
-                  <p className="text-xs text-slate-500">Coming soon</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Weekly Progress */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">This Week</CardTitle>
-              <CardDescription>Your learning progress</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-slate-400">Topics Completed</span>
-                  <span className="text-slate-200 font-medium">0/0</span>
-                </div>
-                <Progress value={0} />
-              </div>
-              <div className="text-center py-4">
-                <Badge variant="secondary">
-                  Start learning to track progress
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <QuickActions />
+          <WeeklyProgress />
         </div>
       </div>
     </div>
+  );
+}
+
+function WelcomeHeader({ userName }: { userName: string }): React.JSX.Element {
+  return (
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+          Welcome back, {userName}! 👋
+        </h1>
+        <p className="text-slate-400 mt-1">
+          Track your progress and continue learning
+        </p>
+      </div>
+      <Link href="/roadmaps/new">
+        <Button className="gap-2">
+          <PlusCircle className="h-4 w-4" />
+          Create Roadmap
+        </Button>
+      </Link>
+    </div>
+  );
+}
+
+function StatsGrid({
+  stats,
+}: {
+  stats: {
+    label: string;
+    value: string;
+    icon: React.ElementType;
+    color: string;
+  }[];
+}): React.JSX.Element {
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {stats.map((stat) => {
+        const Icon = stat.icon;
+        const bgColorMap: Record<string, string> = {
+          violet: "rgba(139, 92, 246, 0.1)",
+          emerald: "rgba(16, 185, 129, 0.1)",
+          amber: "rgba(245, 158, 11, 0.1)",
+          blue: "rgba(59, 130, 246, 0.1)",
+        };
+        const iconColorMap: Record<string, string> = {
+          violet: "#a78bfa",
+          emerald: "#34d399",
+          amber: "#fbbf24",
+          blue: "#60a5fa",
+        };
+
+        return (
+          <Card key={stat.label}>
+            <CardContent className="p-5">
+              <div className="flex items-center gap-3">
+                <div
+                  className="h-10 w-10 rounded-lg flex items-center justify-center"
+                  style={{
+                    backgroundColor: bgColorMap[stat.color] ?? bgColorMap.blue,
+                  }}
+                >
+                  <Icon
+                    className="h-5 w-5"
+                    style={{
+                      color: iconColorMap[stat.color] ?? iconColorMap.blue,
+                    }}
+                  />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-slate-100">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs text-slate-500">{stat.label}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActiveRoadmaps(): React.JSX.Element {
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="text-lg">Your Roadmaps</CardTitle>
+          <CardDescription>Continue where you left off</CardDescription>
+        </div>
+        <Link href="/roadmaps">
+          <Button variant="ghost" size="sm" className="gap-1">
+            View All
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </Link>
+      </CardHeader>
+      <CardContent>
+        <div className="text-center py-12">
+          <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
+            <Map className="h-8 w-8 text-violet-400" />
+          </div>
+          <h3 className="text-lg font-medium text-slate-200 mb-2">
+            No roadmaps yet
+          </h3>
+          <p className="text-sm text-slate-400 mb-4 max-w-sm mx-auto">
+            Create your first AI-powered roadmap to start your learning journey
+          </p>
+          <Link href="/roadmaps/new">
+            <Button className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              Generate Roadmap
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function QuickActions(): React.JSX.Element {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">Quick Actions</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <Link href="/roadmaps/new" className="block">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
+            <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-violet-400" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-slate-200">
+                Generate Roadmap
+              </p>
+              <p className="text-xs text-slate-500">
+                Create AI-powered learning path
+              </p>
+            </div>
+          </div>
+        </Link>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer opacity-50">
+          <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+            <BookOpen className="h-5 w-5 text-emerald-400" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-slate-200">
+              Browse Templates
+            </p>
+            <p className="text-xs text-slate-500">Coming soon</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function WeeklyProgress(): React.JSX.Element {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">This Week</CardTitle>
+        <CardDescription>Your learning progress</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <div className="flex justify-between text-sm mb-2">
+            <span className="text-slate-400">Topics Completed</span>
+            <span className="text-slate-200 font-medium">0/0</span>
+          </div>
+          <Progress value={0} />
+        </div>
+        <div className="text-center py-4">
+          <Badge variant="secondary">Start learning to track progress</Badge>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

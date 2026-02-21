@@ -14,7 +14,10 @@ const updateStatusSchema = z.object({
 });
 
 // PATCH - Update topic status
-export async function PATCH(request: Request, { params }: RouteParams) {
+export async function PATCH(
+  request: Request,
+  { params }: RouteParams,
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -63,6 +66,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error updating topic:", error);
     return NextResponse.json(
       { success: false, error: "Failed to update topic" },

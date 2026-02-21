@@ -9,7 +9,10 @@ interface RouteParams {
 }
 
 // GET - Get single roadmap
-export async function GET(request: Request, { params }: RouteParams) {
+export async function GET(
+  request: Request,
+  { params }: RouteParams,
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -39,6 +42,7 @@ export async function GET(request: Request, { params }: RouteParams) {
       data: roadmap,
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching roadmap:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch roadmap" },
@@ -48,7 +52,10 @@ export async function GET(request: Request, { params }: RouteParams) {
 }
 
 // DELETE - Delete roadmap
-export async function DELETE(request: Request, { params }: RouteParams) {
+export async function DELETE(
+  request: Request,
+  { params }: RouteParams,
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -75,6 +82,7 @@ export async function DELETE(request: Request, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error deleting roadmap:", error);
     return NextResponse.json(
       { success: false, error: "Failed to delete roadmap" },
