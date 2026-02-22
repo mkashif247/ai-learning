@@ -1,21 +1,14 @@
 "use client";
 
-import { Loader2, Lock, Mail, Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -50,91 +43,102 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 bg-[#06070b] relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-indigo-500/6blur-[120px] pointer-events-none" />
+    <main className="min-h-screen flex w-full font-sans relative">
+      <Link
+        href="/"
+        className="absolute top-8 left-8 z-50 flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+      >
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/20">
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <span className="text-lg font-semibold text-white lg:text-black tracking-tight">
+          LearnPath
+        </span>
+      </Link>
 
-      <Card className="relative z-10 w-full max-w-md">
-        <CardHeader className="text-center pb-2">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center gap-2 mb-6"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20">
-              <Sparkles className="h-5 w-5 text-white" />
-            </div>
-          </Link>
-          <CardTitle className="text-2xl font-semibold tracking-tight">
-            Welcome back
-          </CardTitle>
-          <CardDescription className="text-white/30">
-            Sign in to continue your learning journey
-          </CardDescription>
-        </CardHeader>
+      {/* Left side (Hidden on mobile) */}
+      <div className="hidden lg:flex w-full lg:w-1/2 bg-[#EBEBFA] flex-col justify-center items-start p-24">
+        <div className="max-w-xl">
+          <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-black flex flex-col gap-4 mb-8">
+            <span>LearnPath</span>
+            <span className="font-normal text-4xl lg:text-5xl text-black/80">
+              Welcome back
+            </span>
+          </h1>
+          <p className="text-2xl font-medium text-black mb-4">
+            The Mentor You Never Had, Powered by AI
+          </p>
+          <p className="text-lg text-black/70 leading-relaxed">
+            Generate personalized learning roadmaps with AI. Master new skills,
+            prepare for interviews, and track your progress.
+          </p>
+        </div>
+      </div>
 
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Right side */}
+      <div className="w-full lg:w-1/2 relative flex items-center justify-center p-6 bg-black min-h-screen lg:min-h-0">
+        {/* Background SVG */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <Image
+            src="/images/bg.svg"
+            alt="AI Network Background"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <div className="relative z-10 w-full max-w-sm flex flex-col gap-10">
+          <h2 className="text-5xl font-light text-white text-center">
+            Hello there
+          </h2>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {error ? (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/15 text-red-400/90 text-sm">
+              <div className="p-4 rounded-3xl bg-red-500/20 border border-red-500/30 text-white backdrop-blur-md text-sm text-center">
                 {error}
               </div>
             ) : null}
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
-                  required
-                />
-              </div>
+            <div className="space-y-4">
+              <Input
+                id="email"
+                type="text"
+                placeholder="Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10"
-                  required
-                />
-              </div>
-            </div>
-
-            <Button type="submit" className="w-full h-11" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                "Sign In"
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-8 text-center text-sm text-white/30">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="text-indigo-400/80 hover:text-indigo-300 font-medium transition-colors"
+            <Button
+              type="submit"
+              variant="outline"
+              disabled={loading}
+              className="w-full mt-4"
             >
-              Sign up
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Login"}
+            </Button>
+            <div className="text-center mt-2">
+              <Link
+                href="/register"
+                className="text-white/70 hover:text-white text-sm transition-colors drop-shadow-md"
+              >
+                Don&apos;t have an account? Sign up
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
   );
 }
