@@ -74,7 +74,7 @@ export const RoadmapView = ({
             <AccordionItem
               key={phase.id}
               value={phase.id}
-              className="rounded-xl border border-slate-800 bg-slate-900/30 overflow-hidden"
+              className="rounded-2xl liquid-glass border border-white/10 overflow-hidden mb-4"
             >
               <AccordionTrigger className="px-6 py-4 hover:no-underline">
                 <div className="flex items-center justify-between w-full pr-4">
@@ -98,12 +98,12 @@ export const RoadmapView = ({
                       type="button"
                       key={topic.id}
                       className={cn(
-                        "group flex w-full text-left items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer",
+                        "group flex w-full text-left items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer backdrop-blur-md",
                         topic.status === "done"
-                          ? "bg-emerald-500/5 border-emerald-500/20"
-                          : "bg-zinc-900/50 border-zinc-800/50 hover:border-zinc-700 hover:bg-zinc-900",
+                          ? "bg-emerald-500/10 border-emerald-500/20"
+                          : "bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/10",
                         topic.status === "in-progress" &&
-                          "bg-amber-500/5 border-amber-500/20",
+                          "bg-amber-500/10 border-amber-500/20",
                       )}
                       onClick={() => onTopicClick(topic, phase.id)}
                     >
@@ -170,7 +170,7 @@ export const TopicContent = ({
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
       <div
-        className="w-full max-w-4xl h-[85vh] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-left"
+        className="w-full max-w-4xl h-[85vh] liquid-glass border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-left"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
         role="dialog"
@@ -178,7 +178,7 @@ export const TopicContent = ({
         aria-labelledby="topic-title"
       >
         {/* Header */}
-        <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900/50">
+        <div className="px-8 py-6 border-b border-white/10 bg-white/5">
           <div className="flex items-start justify-between gap-6">
             <div>
               <h2 className="text-2xl font-bold text-zinc-100">
@@ -230,7 +230,7 @@ export const TopicContent = ({
                     href={resource.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg border border-zinc-800 hover:border-zinc-700 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                   >
                     <span className="text-sm font-medium text-violet-400">
                       {resource.title}

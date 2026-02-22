@@ -59,13 +59,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="antialiased">
+      <body className="antialiased min-h-screen bg-[#06070b] text-white/90">
         <Providers>{children}</Providers>
         <Toaster
           position="bottom-right"
           toastOptions={{
             className:
-              "!bg-slate-800 !text-slate-100 !border !border-slate-700",
+              "!bg-[#0c0e14!text-white/90 !border !border-white/8] !backdrop-blur-2xl",
             duration: 4000,
           }}
         />

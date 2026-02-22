@@ -22,7 +22,6 @@ async function executeJavaScript(codeToRun: string): Promise<string> {
   // biome-ignore lint/suspicious/noConsole: We intentionally override console.log here to capture user script outputs
   const originalLog = console.log;
 
-  // biome-ignore lint/suspicious/noConsole: Overriding console.log for simulated execution
   console.log = (...args: unknown[]): void => {
     logs.push(args.map((arg) => String(arg)).join(" "));
   };
@@ -36,7 +35,6 @@ async function executeJavaScript(codeToRun: string): Promise<string> {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(errorMessage);
   } finally {
-    // biome-ignore lint/suspicious/noConsole: Reverting back to original
     console.log = originalLog;
   }
 }

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Base HSL/OKLCH themes for robust UI scaling */
+/* ─── Theme Tokens ─── */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -22,31 +22,31 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --radius: 0.875rem;
   }
 
-  /* Deep Violet/Slate Dark Mode (Default for this project) */
+  /* Deep Minimal Dark – default for this project */
   :root[class~="dark"],
   [data-theme="dark"] {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 220 16% 4%;
+    --foreground: 0 0% 96%;
+    --card: 220 14% 6%;
+    --card-foreground: 0 0% 96%;
+    --popover: 220 14% 6%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 220 16% 6%;
+    --secondary: 220 10% 12%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 220 10% 12%;
+    --muted-foreground: 220 8% 56%;
+    --accent: 220 10% 12%;
+    --accent-foreground: 0 0% 96%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 220 10% 13%;
+    --input: 220 10% 13%;
+    --ring: 220 8% 70%;
   }
 
   /* Cyberpunk Neon Theme */
@@ -72,6 +72,7 @@
   }
 }
 
+/* ─── Design Tokens → Tailwind ─── */
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
   --color-background: hsl(var(--background));
@@ -99,11 +100,11 @@
   @keyframes enter {
     from {
       opacity: 0;
-      transform: scale(0.95);
+      transform: translateY(6px) scale(0.98);
     }
     to {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
     }
   }
   @keyframes exit {
@@ -113,45 +114,167 @@
     }
     to {
       opacity: 0;
-      transform: scale(0.95);
+      transform: scale(0.97);
     }
   }
-  --animate-in: enter 0.2s ease-out;
-  --animate-out: exit 0.15s ease-in;
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  --animate-in: enter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-out: exit 0.2s ease-in;
+  --animate-shimmer: shimmer 3s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
 }
 
+/* ─── Reset & Base ─── */
 * {
-  border-color: var(--border);
+  border-color: hsl(var(--border));
 }
 
 html,
 body {
   height: 100%;
-  background: var(--background);
-  color: var(--foreground);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
   font-family: var(--font-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: rgba(255, 255, 255, 0.14);
 }
 
-/* Utilities */
+/* ─── Glass Utilities ─── */
+
+/* Basic frosted glass */
 .glass {
-  background: rgba(9, 9, 11, 0.7);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(12, 14, 20, 0.6);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Liquid Glass — the core premium effect */
+.liquid-glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.04),
+    0 4px 24px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Elevated liquid glass card */
+.liquid-glass-elevated {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 40%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  backdrop-filter: blur(48px) saturate(1.6);
+  -webkit-backdrop-filter: blur(48px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 8px 40px -8px rgba(0, 0, 0, 0.4),
+    0 2px 12px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Autofill Fix ─── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px hsl(220 16% 4%) inset !important;
+  -webkit-text-fill-color: hsl(0 0% 96%) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ─── Subtle Mesh Background ─── */
+.mesh-bg {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(
+      ellipse 70% 50% at 50% -10%,
+      rgba(99, 102, 241, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 100% 100%,
+      rgba(79, 70, 229, 0.06),
+      transparent 70%
+    );
+  background-attachment: fixed;
+}
+
+/* ─── Ambient Glow (for auth pages, hero, etc.) ─── */
+.ambient-glow {
+  position: relative;
+}
+.ambient-glow::before {
+  content: "";
+  position: absolute;
+  inset: -120px;
+  background: radial-gradient(
+    ellipse 50% 40% at 50% 40%,
+    rgba(99, 102, 241, 0.12),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: white;
 }

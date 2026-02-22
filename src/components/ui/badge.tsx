@@ -18,14 +18,19 @@ const Badge = ({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors",
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors backdrop-blur-sm",
         {
-          "bg-violet-500/20 text-violet-300": variant === "default",
-          "bg-slate-700 text-slate-300": variant === "secondary",
-          "bg-emerald-500/20 text-emerald-300": variant === "success",
-          "bg-amber-500/20 text-amber-300": variant === "warning",
-          "bg-red-500/20 text-red-300": variant === "destructive",
-          "border border-slate-700 text-slate-300": variant === "outline",
+          "bg-indigo-500/15 text-indigo-300 border border-indigo-500/20":
+            variant === "default",
+          "bg-white/6text-white/60 border border-white/8]":
+            variant === "secondary",
+          "bg-emerald-500/15 text-emerald-300 border border-emerald-500/20":
+            variant === "success",
+          "bg-amber-500/15 text-amber-300 border border-amber-500/20":
+            variant === "warning",
+          "bg-red-500/15 text-red-300 border border-red-500/20":
+            variant === "destructive",
+          "border border-white/10 text-white/50": variant === "outline",
         },
         className,
       )}

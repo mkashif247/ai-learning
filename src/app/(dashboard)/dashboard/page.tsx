@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
   const stats = [
-    { label: "Active Roadmaps", value: "0", icon: MapIcon, color: "violet" },
+    { label: "Active Roadmaps", value: "0", icon: MapIcon, color: "indigo" },
     { label: "Topics Completed", value: "0", icon: Target, color: "emerald" },
     { label: "Hours Learned", value: "0", icon: Clock, color: "amber" },
     {
@@ -62,10 +62,10 @@ function WelcomeHeader({ userName }: { userName: string }): React.JSX.Element {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+        <h1 className="text-2xl md:text-3xl font-semibold text-white/90 tracking-tight">
           Welcome back, {userName}! 👋
         </h1>
-        <p className="text-slate-400 mt-1">
+        <p className="text-white/35 mt-1">
           Track your progress and continue learning
         </p>
       </div>
@@ -93,17 +93,28 @@ function StatsGrid({
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat) => {
         const Icon = stat.icon;
-        const bgColorMap: Record<string, string> = {
-          violet: "rgba(139, 92, 246, 0.1)",
-          emerald: "rgba(16, 185, 129, 0.1)",
-          amber: "rgba(245, 158, 11, 0.1)",
-          blue: "rgba(59, 130, 246, 0.1)",
+        const colorMap: Record<string, { bg: string; text: string }> = {
+          indigo: {
+            bg: "rgba(99, 102, 241, 0.1)",
+            text: "#818cf8",
+          },
+          emerald: {
+            bg: "rgba(16, 185, 129, 0.1)",
+            text: "#34d399",
+          },
+          amber: {
+            bg: "rgba(245, 158, 11, 0.1)",
+            text: "#fbbf24",
+          },
+          blue: {
+            bg: "rgba(59, 130, 246, 0.1)",
+            text: "#60a5fa",
+          },
         };
-        const iconColorMap: Record<string, string> = {
-          violet: "#a78bfa",
-          emerald: "#34d399",
-          amber: "#fbbf24",
-          blue: "#60a5fa",
+
+        const colors = colorMap[stat.color] ?? {
+          bg: "rgba(59, 130, 246, 0.1)",
+          text: "#60a5fa",
         };
 
         return (
@@ -111,23 +122,16 @@ function StatsGrid({
             <CardContent className="p-5">
               <div className="flex items-center gap-3">
                 <div
-                  className="h-10 w-10 rounded-lg flex items-center justify-center"
-                  style={{
-                    backgroundColor: bgColorMap[stat.color] ?? bgColorMap.blue,
-                  }}
+                  className="h-10 w-10 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: colors.bg }}
                 >
-                  <Icon
-                    className="h-5 w-5"
-                    style={{
-                      color: iconColorMap[stat.color] ?? iconColorMap.blue,
-                    }}
-                  />
+                  <Icon className="h-5 w-5" style={{ color: colors.text }} />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-slate-100">
+                  <p className="text-2xl font-semibold text-white/90">
                     {stat.value}
                   </p>
-                  <p className="text-xs text-slate-500">{stat.label}</p>
+                  <p className="text-xs text-white/30">{stat.label}</p>
                 </div>
               </div>
             </CardContent>
@@ -155,13 +159,13 @@ function ActiveRoadmaps(): React.JSX.Element {
       </CardHeader>
       <CardContent>
         <div className="text-center py-12">
-          <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
-            <MapIcon className="h-8 w-8 text-violet-400" />
+          <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+            <MapIcon className="h-8 w-8 text-indigo-400" />
           </div>
-          <h3 className="text-lg font-medium text-slate-200 mb-2">
+          <h3 className="text-lg font-medium text-white/80 mb-2">
             No roadmaps yet
           </h3>
-          <p className="text-sm text-slate-400 mb-4 max-w-sm mx-auto">
+          <p className="text-sm text-white/35 mb-4 max-w-sm mx-auto">
             Create your first AI-powered roadmap to start your learning journey
           </p>
           <Link href="/roadmaps/new">
@@ -184,29 +188,29 @@ function QuickActions(): React.JSX.Element {
       </CardHeader>
       <CardContent className="space-y-3">
         <Link href="/roadmaps/new" className="block">
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
-            <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
-              <Sparkles className="h-5 w-5 text-violet-400" />
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/3border border-white/6hover:bg-white/5] hover:border-white/10 transition-all cursor-pointer">
+            <div className="h-10 w-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-indigo-400" />
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-200">
+              <p className="text-sm font-medium text-white/80">
                 Generate Roadmap
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-white/30">
                 Create AI-powered learning path
               </p>
             </div>
           </div>
         </Link>
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer opacity-50">
-          <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/2border border-white/4cursor-default opacity-50">
+          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
             <BookOpen className="h-5 w-5 text-emerald-400" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-200">
+            <p className="text-sm font-medium text-white/60">
               Browse Templates
             </p>
-            <p className="text-xs text-slate-500">Coming soon</p>
+            <p className="text-xs text-white/25">Coming soon</p>
           </div>
         </div>
       </CardContent>
@@ -224,8 +228,8 @@ function WeeklyProgress(): React.JSX.Element {
       <CardContent className="space-y-4">
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-slate-400">Topics Completed</span>
-            <span className="text-slate-200 font-medium">0/0</span>
+            <span className="text-white/35">Topics Completed</span>
+            <span className="text-white/70 font-medium">0/0</span>
           </div>
           <Progress value={0} />
         </div>

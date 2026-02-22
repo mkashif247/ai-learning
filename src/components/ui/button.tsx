@@ -5,25 +5,30 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:pointer-events-none disabled:opacity-40",
   {
     variants: {
       variant: {
-        default: "bg-white text-zinc-950 hover:bg-zinc-200/90",
-        destructive: "bg-red-500/10 text-red-500 hover:bg-red-500/20",
+        default:
+          "bg-white text-[#0a0b0f] hover:bg-white/90 shadow-sm shadow-white/10",
+        destructive:
+          "bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20",
         outline:
-          "border border-zinc-800 bg-transparent hover:bg-zinc-800/50 text-zinc-300",
-        secondary: "bg-zinc-800 text-zinc-100 hover:bg-zinc-700/80",
-        ghost: "hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-100",
-        link: "text-primary underline-offset-4 hover:underline",
+          "border border-white/10 bg-white/3hover:bg-white/6text-white/70 hover:text-white/90 backdrop-blur-sm",
+        secondary:
+          "bg-white/6text-white/80 hover:bg-white/10 border border-white/6]",
+        ghost: "hover:bg-white/5] text-white/50 hover:text-white/80",
+        link: "text-white/80 underline-offset-4 hover:underline",
         premium:
-          "bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-500 hover:to-indigo-500 border border-violet-500/20 shadow-lg shadow-violet-500/20",
+          "bg-linear-to-r from-indigo-500 to-violet-500 text-white hover:from-indigo-400 hover:to-violet-400 shadow-lg shadow-indigo-500/20",
+        glass:
+          "liquid-glass text-white/80 hover:text-white hover:border-white/15",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-10 px-5 py-2",
+        sm: "h-8 rounded-lg px-3 text-xs",
+        lg: "h-12 rounded-xl px-8 text-base",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
@@ -34,8 +39,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }

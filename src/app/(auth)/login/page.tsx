@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2,Lock, Mail, Sparkles } from "lucide-react";
+import { Loader2, Lock, Mail, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -50,35 +50,40 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 flex items-center justify-center px-4 hero-gradient">
-      <div className="absolute inset-0 grid-pattern opacity-20" />
+    <main className="min-h-screen flex items-center justify-center px-4 bg-[#06070b] relative overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-indigo-500/6blur-[120px] pointer-events-none" />
 
-      <Card className="relative w-full max-w-md">
-        <CardHeader className="text-center">
+      <Card className="relative z-10 w-full max-w-md">
+        <CardHeader className="text-center pb-2">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 mb-4"
+            className="inline-flex items-center justify-center gap-2 mb-6"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 shadow-lg shadow-violet-500/25">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
           </Link>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-semibold tracking-tight">
+            Welcome back
+          </CardTitle>
+          <CardDescription className="text-white/30">
             Sign in to continue your learning journey
           </CardDescription>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error ? <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error ? (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/15 text-red-400/90 text-sm">
                 {error}
-              </div> : null}
+              </div>
+            ) : null}
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
                 <Input
                   id="email"
                   type="email"
@@ -94,7 +99,7 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
                 <Input
                   id="password"
                   type="password"
@@ -107,7 +112,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full h-11" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -119,11 +124,11 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-slate-400">
+          <div className="mt-8 text-center text-sm text-white/30">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
-              className="text-violet-400 hover:text-violet-300 font-medium"
+              className="text-indigo-400/80 hover:text-indigo-300 font-medium transition-colors"
             >
               Sign up
             </Link>
