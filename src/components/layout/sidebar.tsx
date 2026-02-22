@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  BookOpen,
   LayoutDashboard,
   Map as MapIcon,
   PlusCircle,
@@ -17,8 +16,12 @@ const sidebarItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/roadmaps", label: "My Roadmaps", icon: MapIcon },
   { href: "/roadmaps/new", label: "Create Roadmap", icon: PlusCircle },
-  { href: "/learn", label: "Learning", icon: BookOpen },
-  { href: "/achievements", label: "Achievements", icon: Trophy },
+  {
+    href: "/achievements",
+    label: "Achievements",
+    icon: Trophy,
+    disabled: true,
+  },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
@@ -32,6 +35,21 @@ export const Sidebar = (): React.JSX.Element => {
           const isActive =
             pathname === item.href || pathname.startsWith(`${item.href}/`);
           const Icon = item.icon;
+
+          if (item.disabled) {
+            return (
+              <div
+                key={item.href}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/20 cursor-not-allowed"
+              >
+                <Icon className="h-[18px] w-[18px] text-white/15" />
+                {item.label}
+                <span className="ml-auto text-[10px] text-white/15 uppercase tracking-wider">
+                  Soon
+                </span>
+              </div>
+            );
+          }
 
           return (
             <Link

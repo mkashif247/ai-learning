@@ -139,6 +139,7 @@ export default function RoadmapDetailClient({
         phases={roadmap.phases}
         roadmapId={roadmap._id}
         onTopicClick={(topic) => setSelectedTopic(topic)}
+        onStatusChange={() => router.refresh()}
       />
 
       {selectedTopic ? (

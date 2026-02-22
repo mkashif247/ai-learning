@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { PracticeModal } from "@/components/learning/practice-modal";
 import {
@@ -30,14 +31,51 @@ interface RoadmapViewProps {
   phases: Phase[];
   roadmapId: string;
   onTopicClick: (topic: Topic, phaseId: string) => void;
+  onStatusChange?: (topicId: string, status: string) => void;
 }
 
 export const RoadmapView = ({
   phases,
+  roadmapId,
   onTopicClick,
+  onStatusChange,
 }: RoadmapViewProps): React.JSX.Element => {
   const [practicingTopic, setPracticingTopic] = useState<Topic | null>(null);
-  const [_updatingTopic, _setUpdatingTopic] = useState<string | null>(null);
+  const [updatingTopic, setUpdatingTopic] = useState<string | null>(null);
+
+  const handleStatusToggle = async (
+    e: React.MouseEvent,
+    topic: Topic,
+  ): Promise<void> => {
+    e.stopPropagation();
+    const nextStatus = topic.status === "done" ? "pending" : "done";
+    setUpdatingTopic(topic.id);
+
+    try {
+      const res = await fetch(`/api/roadmaps/${roadmapId}/topics/${topic.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: nextStatus }),
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        toast.error(data.error || "Failed to update topic");
+        return;
+      }
+
+      toast.success(
+        nextStatus === "done"
+          ? "Topic completed! 🎉"
+          : "Topic marked as pending",
+      );
+      onStatusChange?.(topic.id, nextStatus);
+    } catch {
+      toast.error("Failed to update topic");
+    } finally {
+      setUpdatingTopic(null);
+    }
+  };
 
   const getStatusIcon = (status: string): React.JSX.Element => {
     if (status === "done") {
@@ -108,10 +146,21 @@ export const RoadmapView = ({
                       onClick={() => onTopicClick(topic, phase.id)}
                     >
                       <div className="shrink-0">
-                        {_updatingTopic === topic.id ? (
+                        {updatingTopic === topic.id ? (
                           <Loader2 className="h-5 w-5 animate-spin text-white/40" />
                         ) : (
-                          getStatusIcon(topic.status)
+                          <button
+                            type="button"
+                            onClick={(e) => handleStatusToggle(e, topic)}
+                            className="hover:scale-110 transition-transform"
+                            title={
+                              topic.status === "done"
+                                ? "Mark as pending"
+                                : "Mark as complete"
+                            }
+                          >
+                            {getStatusIcon(topic.status)}
+                          </button>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">

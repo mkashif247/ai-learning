@@ -9,6 +9,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
 import { Badge } from "@/components/ui/badge";
@@ -22,17 +23,114 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { authOptions } from "@/lib/auth";
+import { connectDB, Roadmap } from "@/lib/db";
+import { formatDate } from "@/lib/utils";
+
+// ── Data fetching helpers ─────────────────────────────────────────────────────
+
+interface DashboardRoadmap {
+  _id: string;
+  title: string;
+  goal: string;
+  targetRole: string;
+  createdAt: Date;
+  updatedAt: Date;
+  progress: number;
+  totalTopics: number;
+  completedTopics: number;
+  totalMinutes: number;
+}
+
+async function getDashboardData(userId: string) {
+  await connectDB();
+
+  const roadmaps = await Roadmap.find({ userId })
+    .select("title goal targetRole createdAt updatedAt phases")
+    .sort({ updatedAt: -1 })
+    .lean();
+
+  let totalTopicsCompleted = 0;
+  let totalTopicsAll = 0;
+  let totalMinutesAll = 0;
+
+  const roadmapsWithProgress: DashboardRoadmap[] = roadmaps.map((roadmap) => {
+    let total = 0;
+    let completed = 0;
+    let minutes = 0;
+
+    roadmap.phases?.forEach((phase) => {
+      phase.topics?.forEach((topic) => {
+        total++;
+        minutes += topic.estimatedMinutes || 0;
+        if (topic.status === "done") {
+          completed++;
+        }
+      });
+    });
+
+    totalTopicsCompleted += completed;
+    totalTopicsAll += total;
+    totalMinutesAll += minutes;
+
+    return {
+      _id: roadmap._id.toString(),
+      title: roadmap.title,
+      goal: roadmap.goal,
+      targetRole: roadmap.targetRole,
+      createdAt: roadmap.createdAt,
+      updatedAt: roadmap.updatedAt,
+      progress: total > 0 ? Math.round((completed / total) * 100) : 0,
+      totalTopics: total,
+      completedTopics: completed,
+      totalMinutes: minutes,
+    };
+  });
+
+  const hoursLearned = Math.round((totalMinutesAll / 60) * 10) / 10;
+
+  return {
+    roadmaps: roadmapsWithProgress,
+    stats: {
+      activeRoadmaps: roadmaps.length,
+      topicsCompleted: totalTopicsCompleted,
+      totalTopics: totalTopicsAll,
+      hoursLearned,
+    },
+  };
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
 
-  const stats = [
-    { label: "Active Roadmaps", value: "0", icon: MapIcon, color: "indigo" },
-    { label: "Topics Completed", value: "0", icon: Target, color: "emerald" },
-    { label: "Hours Learned", value: "0", icon: Clock, color: "amber" },
+  const { roadmaps, stats } = await getDashboardData(session.user.id);
+
+  const statItems = [
+    {
+      label: "Active Roadmaps",
+      value: String(stats.activeRoadmaps),
+      icon: MapIcon,
+      color: "indigo",
+    },
+    {
+      label: "Topics Completed",
+      value: String(stats.topicsCompleted),
+      icon: Target,
+      color: "emerald",
+    },
+    {
+      label: "Hours Learned",
+      value: String(stats.hoursLearned),
+      icon: Clock,
+      color: "amber",
+    },
     {
       label: "Current Streak",
-      value: "0 days",
+      value: stats.activeRoadmaps > 0 ? "1 day" : "0 days",
       icon: TrendingUp,
       color: "blue",
     },
@@ -40,23 +138,26 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <WelcomeHeader
-        userName={session?.user?.name?.split(" ")[0] || "Learner"}
-      />
-      <StatsGrid stats={stats} />
+      <WelcomeHeader userName={session.user.name?.split(" ")[0] || "Learner"} />
+      <StatsGrid stats={statItems} />
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <ActiveRoadmaps />
+          <ActiveRoadmaps roadmaps={roadmaps.slice(0, 3)} />
         </div>
         <div className="space-y-6">
           <QuickActions />
-          <WeeklyProgress />
+          <WeeklyProgress
+            completed={stats.topicsCompleted}
+            total={stats.totalTopics}
+          />
         </div>
       </div>
     </div>
   );
 }
+
+// ── Sub-components ────────────────────────────────────────────────────────────
 
 function WelcomeHeader({ userName }: { userName: string }): React.JSX.Element {
   return (
@@ -142,7 +243,11 @@ function StatsGrid({
   );
 }
 
-function ActiveRoadmaps(): React.JSX.Element {
+function ActiveRoadmaps({
+  roadmaps,
+}: {
+  roadmaps: DashboardRoadmap[];
+}): React.JSX.Element {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -158,23 +263,64 @@ function ActiveRoadmaps(): React.JSX.Element {
         </Link>
       </CardHeader>
       <CardContent>
-        <div className="text-center py-12">
-          <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/10 flex items-center justify-center mx-auto mb-4">
-            <MapIcon className="h-8 w-8 text-indigo-400" />
+        {roadmaps.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+              <MapIcon className="h-8 w-8 text-indigo-400" />
+            </div>
+            <h3 className="text-lg font-medium text-white/80 mb-2">
+              No roadmaps yet
+            </h3>
+            <p className="text-sm text-white/35 mb-4 max-w-sm mx-auto">
+              Create your first AI-powered roadmap to start your learning
+              journey
+            </p>
+            <Link href="/roadmaps/new">
+              <Button className="gap-2">
+                <Sparkles className="h-4 w-4" />
+                Generate Roadmap
+              </Button>
+            </Link>
           </div>
-          <h3 className="text-lg font-medium text-white/80 mb-2">
-            No roadmaps yet
-          </h3>
-          <p className="text-sm text-white/35 mb-4 max-w-sm mx-auto">
-            Create your first AI-powered roadmap to start your learning journey
-          </p>
-          <Link href="/roadmaps/new">
-            <Button className="gap-2">
-              <Sparkles className="h-4 w-4" />
-              Generate Roadmap
-            </Button>
-          </Link>
-        </div>
+        ) : (
+          <div className="space-y-3">
+            {roadmaps.map((roadmap) => (
+              <Link
+                key={roadmap._id}
+                href={`/roadmaps/${roadmap._id}`}
+                className="block"
+              >
+                <div className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group">
+                  <div className="h-10 w-10 rounded-xl bg-indigo-500/10 flex items-center justify-center shrink-0">
+                    {roadmap.goal === "interview-prep" ? (
+                      <Target className="h-5 w-5 text-indigo-400" />
+                    ) : (
+                      <BookOpen className="h-5 w-5 text-indigo-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-white/80 truncate">
+                      {roadmap.title}
+                    </p>
+                    <p className="text-xs text-white/30 mt-0.5">
+                      {roadmap.completedTopics}/{roadmap.totalTopics} topics •{" "}
+                      {formatDate(roadmap.createdAt)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <div className="w-20">
+                      <Progress value={roadmap.progress} />
+                    </div>
+                    <span className="text-xs text-white/40 w-8 text-right">
+                      {roadmap.progress}%
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-white/20 group-hover:text-white/40 transition-colors" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -218,24 +364,42 @@ function QuickActions(): React.JSX.Element {
   );
 }
 
-function WeeklyProgress(): React.JSX.Element {
+function WeeklyProgress({
+  completed,
+  total,
+}: {
+  completed: number;
+  total: number;
+}): React.JSX.Element {
+  const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">This Week</CardTitle>
+        <CardTitle className="text-lg">Overall Progress</CardTitle>
         <CardDescription>Your learning progress</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
           <div className="flex justify-between text-sm mb-2">
             <span className="text-white/35">Topics Completed</span>
-            <span className="text-white/70 font-medium">0/0</span>
+            <span className="text-white/70 font-medium">
+              {completed}/{total}
+            </span>
           </div>
-          <Progress value={0} />
+          <Progress value={percent} />
         </div>
-        <div className="text-center py-4">
-          <Badge variant="secondary">Start learning to track progress</Badge>
-        </div>
+        {total === 0 ? (
+          <div className="text-center py-4">
+            <Badge variant="secondary">Start learning to track progress</Badge>
+          </div>
+        ) : (
+          <div className="text-center py-2">
+            <p className="text-xs text-white/30">
+              {percent}% of all topics completed
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
