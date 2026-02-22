@@ -46,7 +46,7 @@ export const RoadmapView = ({
     if (status === "in-progress") {
       return <Loader2 className="h-5 w-5 text-amber-400 animate-spin" />;
     }
-    return <Circle className="h-5 w-5 text-slate-600" />;
+    return <Circle className="h-5 w-5 text-white/20" />;
   };
 
   return (
@@ -79,14 +79,14 @@ export const RoadmapView = ({
               <AccordionTrigger className="px-6 py-4 hover:no-underline">
                 <div className="flex items-center justify-between w-full pr-4">
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-slate-100">
+                    <h3 className="text-lg font-semibold text-white/90">
                       {phase.title}
                     </h3>
-                    <p className="text-sm text-slate-400 mt-1">
+                    <p className="text-sm text-white/40 mt-1">
                       {phase.description}
                     </p>
                   </div>
-                  <span className="text-sm text-slate-500 shrink-0 ml-4">
+                  <span className="text-sm text-white/30 shrink-0 ml-4">
                     {completedCount}/{totalCount} topics
                   </span>
                 </div>
@@ -109,16 +109,16 @@ export const RoadmapView = ({
                     >
                       <div className="shrink-0">
                         {_updatingTopic === topic.id ? (
-                          <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                          <Loader2 className="h-5 w-5 animate-spin text-white/40" />
                         ) : (
                           getStatusIcon(topic.status)
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-slate-200 truncate">
+                        <h4 className="font-medium text-white/80 truncate">
                           {topic.title}
                         </h4>
-                        <p className="text-sm text-slate-500 truncate">
+                        <p className="text-sm text-white/30 truncate">
                           {topic.description}
                         </p>
                       </div>
@@ -128,12 +128,12 @@ export const RoadmapView = ({
                           e.stopPropagation();
                           setPracticingTopic(topic);
                         }}
-                        className="p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-violet-400 hover:bg-zinc-700 transition-colors ml-2"
+                        className="p-2 rounded-lg bg-white/5 text-white/40 hover:text-indigo-400 hover:bg-white/10 transition-colors ml-2"
                         title="Practice Code"
                       >
                         <Code2 className="h-4 w-4" />
                       </button>
-                      <div className="flex items-center gap-4 shrink-0 text-zinc-500">
+                      <div className="flex items-center gap-4 shrink-0 text-white/30">
                         <span className="flex items-center gap-1 text-xs">
                           <Clock className="h-3 w-3" />
                           {topic.estimatedMinutes}m
@@ -181,10 +181,10 @@ export const TopicContent = ({
         <div className="px-8 py-6 border-b border-white/10 bg-white/5">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <h2 className="text-2xl font-bold text-zinc-100">
+              <h2 className="text-2xl font-bold text-white/90">
                 {topic.title}
               </h2>
-              <p className="text-zinc-400 mt-2 text-base leading-relaxed">
+              <p className="text-white/40 mt-2 text-base leading-relaxed">
                 {topic.description}
               </p>
             </div>
@@ -192,7 +192,7 @@ export const TopicContent = ({
               {onPractice ? (
                 <Button
                   onClick={onPractice}
-                  className="gap-2 bg-violet-600 hover:bg-violet-700 text-white"
+                  className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
                   <Code2 className="h-4 w-4" />
                   Practice
@@ -201,7 +201,7 @@ export const TopicContent = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 rounded-lg hover:bg-zinc-800 text-zinc-500 hover:text-zinc-200 transition-colors"
+                className="p-2 rounded-lg hover:bg-white/10 text-white/30 hover:text-white/80 transition-colors"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -212,7 +212,7 @@ export const TopicContent = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-8">
           <div className="prose prose-invert prose-sm max-w-none">
-            <div className="whitespace-pre-wrap text-slate-300 leading-relaxed">
+            <div className="whitespace-pre-wrap text-white/70 leading-relaxed">
               {topic.content || "Content coming soon..."}
             </div>
           </div>
@@ -220,7 +220,7 @@ export const TopicContent = ({
           {/* Resources */}
           {topic.resources.length > 0 ? (
             <div className="mt-8">
-              <h3 className="text-lg font-semibold text-zinc-100 mb-4">
+              <h3 className="text-lg font-semibold text-white/90 mb-4">
                 Resources
               </h3>
               <div className="space-y-2">
@@ -232,10 +232,10 @@ export const TopicContent = ({
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                   >
-                    <span className="text-sm font-medium text-violet-400">
+                    <span className="text-sm font-medium text-indigo-400">
                       {resource.title}
                     </span>
-                    <span className="text-xs text-zinc-500 ml-auto">
+                    <span className="text-xs text-white/30 ml-auto">
                       {resource.type}
                     </span>
                   </a>

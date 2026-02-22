@@ -188,7 +188,7 @@ function QuickActions(): React.JSX.Element {
       </CardHeader>
       <CardContent className="space-y-3">
         <Link href="/roadmaps/new" className="block">
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/3border border-white/6hover:bg-white/5] hover:border-white/10 transition-all cursor-pointer">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer">
             <div className="h-10 w-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
               <Sparkles className="h-5 w-5 text-indigo-400" />
             </div>
@@ -202,7 +202,7 @@ function QuickActions(): React.JSX.Element {
             </div>
           </div>
         </Link>
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/2border border-white/4cursor-default opacity-50">
+        <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 cursor-default opacity-50">
           <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
             <BookOpen className="h-5 w-5 text-emerald-400" />
           </div>

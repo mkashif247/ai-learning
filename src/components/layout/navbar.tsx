@@ -30,7 +30,7 @@ export const Navbar = (): React.JSX.Element => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10 bg-[rgba(8,10,15,0.7)] backdrop-blur-2xl backdrop-saturate-150">
+    <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10 bg-black/40 backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex h-full items-center justify-between">
           {/* Logo */}
@@ -76,7 +76,7 @@ export const Navbar = (): React.JSX.Element => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="w-56 bg-[#0c0e14] border-white/10 backdrop-blur-2xl"
+                    className="w-56 bg-black/80 border-white/10 backdrop-blur-2xl"
                   >
                     <DropdownMenuLabel>
                       <div className="flex flex-col space-y-1">

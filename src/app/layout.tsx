@@ -59,7 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="antialiased min-h-screen bg-[#06070b] text-white/90">
+      <body className="antialiased min-h-screen bg-black text-white/90">
         <Providers>{children}</Providers>
         <Toaster
           position="bottom-right"

@@ -105,10 +105,10 @@ export default function NewRoadmapPage(): React.JSX.Element {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-100 mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-white/90 mb-2">
           Create Your Learning Roadmap
         </h1>
-        <p className="text-slate-400">
+        <p className="text-white/40">
           Tell us your goals and we&apos;ll generate a personalized learning
           path
         </p>
@@ -194,38 +194,38 @@ function GoalSelection({
         <button
           type="button"
           onClick={() => setGoal("skill-learning")}
-          className={`p-4 rounded-xl border-2 text-left transition-all ${
+          className={`p-4 rounded-2xl border-2 text-left transition-all ${
             goal === "skill-learning"
-              ? "border-violet-500 bg-violet-500/10"
-              : "border-slate-700 hover:border-slate-600"
+              ? "border-indigo-400 bg-indigo-500/10"
+              : "border-white/10 hover:border-white/20"
           }`}
         >
           <BookOpen
             className={`h-6 w-6 mb-2 ${
-              goal === "skill-learning" ? "text-violet-400" : "text-slate-400"
+              goal === "skill-learning" ? "text-indigo-400" : "text-white/40"
             }`}
           />
-          <h3 className="font-semibold text-slate-200">Learn New Skills</h3>
-          <p className="text-sm text-slate-400 mt-1">
+          <h3 className="font-semibold text-white/80">Learn New Skills</h3>
+          <p className="text-sm text-white/40 mt-1">
             Master a new technology or stack
           </p>
         </button>
         <button
           type="button"
           onClick={() => setGoal("interview-prep")}
-          className={`p-4 rounded-xl border-2 text-left transition-all ${
+          className={`p-4 rounded-2xl border-2 text-left transition-all ${
             goal === "interview-prep"
-              ? "border-violet-500 bg-violet-500/10"
-              : "border-slate-700 hover:border-slate-600"
+              ? "border-indigo-400 bg-indigo-500/10"
+              : "border-white/10 hover:border-white/20"
           }`}
         >
           <Target
             className={`h-6 w-6 mb-2 ${
-              goal === "interview-prep" ? "text-violet-400" : "text-slate-400"
+              goal === "interview-prep" ? "text-indigo-400" : "text-white/40"
             }`}
           />
-          <h3 className="font-semibold text-slate-200">Interview Prep</h3>
-          <p className="text-sm text-slate-400 mt-1">
+          <h3 className="font-semibold text-white/80">Interview Prep</h3>
+          <p className="text-sm text-white/40 mt-1">
             Prepare for technical interviews
           </p>
         </button>
@@ -352,11 +352,17 @@ function TimelineSelection({
                 onChange={(e) =>
                   setTimelineUnit(e.target.value as TimelineUnit)
                 }
-                className="flex-1 h-11 rounded-lg border border-slate-700 bg-slate-800/50 px-3 text-sm text-slate-100"
+                className="flex-1 h-11 rounded-full border border-white/20 bg-black/20 focus:bg-black/40 hover:bg-black/30 px-4 text-sm text-white/90"
               >
-                <option value="days">Days</option>
-                <option value="weeks">Weeks</option>
-                <option value="months">Months</option>
+                <option value="days" className="bg-[#0c0e14]">
+                  Days
+                </option>
+                <option value="weeks" className="bg-[#0c0e14]">
+                  Weeks
+                </option>
+                <option value="months" className="bg-[#0c0e14]">
+                  Months
+                </option>
               </select>
             </div>
           </div>
@@ -369,10 +375,10 @@ function TimelineSelection({
                 max={8}
                 value={hoursPerDay}
                 onChange={(e) => setHoursPerDay(Number(e.target.value))}
-                className="flex-1 accent-violet-500"
+                className="flex-1 accent-white"
               />
-              <div className="flex items-center gap-1 text-slate-200 min-w-[60px]">
-                <Clock className="h-4 w-4 text-slate-400" />
+              <div className="flex items-center gap-1 text-white/80 min-w-[60px]">
+                <Clock className="h-4 w-4 text-white/40" />
                 {hoursPerDay}h
               </div>
             </div>
@@ -402,13 +408,13 @@ function SkillLevelSelection({
             key={level}
             type="button"
             onClick={() => setSkillLevel(level)}
-            className={`p-3 rounded-lg border-2 text-center transition-all ${
+            className={`p-3 rounded-2xl border-2 text-center transition-all ${
               skillLevel === level
-                ? "border-violet-500 bg-violet-500/10"
-                : "border-slate-700 hover:border-slate-600"
+                ? "border-indigo-400 bg-indigo-500/10"
+                : "border-white/10 hover:border-white/20"
             }`}
           >
-            <span className="capitalize text-sm font-medium text-slate-200">
+            <span className="capitalize text-sm font-medium text-white/80">
               {level}
             </span>
           </button>

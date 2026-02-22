@@ -22,9 +22,9 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-[#06070b] p-8 text-center relative overflow-hidden">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-black p-8 text-center relative overflow-hidden">
       {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-red-500/6blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-red-500/10 blur-[100px] pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-6">
         <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-red-500/10 border border-red-500/10">
@@ -64,7 +64,7 @@ export default function ErrorPage({
           </button>
           <Link
             href="/"
-            className="rounded-xl border border-white/10 bg-white/3px-5 py-2.5 text-sm font-medium text-white/60 transition-colors hover:border-white/15 hover:text-white/80 hover:bg-white/5]"
+            className="rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-white/60 transition-colors hover:border-white/20 hover:text-white/80 hover:bg-white/10"
           >
             Go Home
           </Link>

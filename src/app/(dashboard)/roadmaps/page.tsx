@@ -74,10 +74,10 @@ export default async function RoadmapsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+          <h1 className="text-2xl md:text-3xl font-bold text-white/90">
             My Roadmaps
           </h1>
-          <p className="text-slate-400 mt-1">
+          <p className="text-white/40 mt-1">
             Manage and track your learning paths
           </p>
         </div>
@@ -94,13 +94,13 @@ export default async function RoadmapsPage() {
         <Card>
           <CardContent className="py-16">
             <div className="text-center">
-              <div className="h-16 w-16 rounded-2xl bg-violet-500/10 flex items-center justify-center mx-auto mb-4">
-                <MapIcon className="h-8 w-8 text-violet-400" />
+              <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+                <MapIcon className="h-8 w-8 text-indigo-400" />
               </div>
-              <h3 className="text-lg font-medium text-slate-200 mb-2">
+              <h3 className="text-lg font-medium text-white/80 mb-2">
                 No roadmaps yet
               </h3>
-              <p className="text-sm text-slate-400 mb-6 max-w-sm mx-auto">
+              <p className="text-sm text-white/40 mb-6 max-w-sm mx-auto">
                 Create your first AI-powered roadmap to start your learning
                 journey
               </p>
@@ -117,14 +117,14 @@ export default async function RoadmapsPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {roadmapsWithProgress.map((roadmap) => (
             <Link key={roadmap._id} href={`/roadmaps/${roadmap._id}`}>
-              <Card className="h-full hover:border-violet-500/30 transition-colors cursor-pointer">
+              <Card className="h-full hover:border-white/20 transition-colors cursor-pointer group">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-slate-100 truncate">
+                      <h3 className="font-semibold text-white/90 truncate">
                         {roadmap.title}
                       </h3>
-                      <p className="text-sm text-slate-400 truncate mt-1">
+                      <p className="text-sm text-white/40 truncate mt-1">
                         {roadmap.targetRole}
                       </p>
                     </div>
@@ -151,20 +151,20 @@ export default async function RoadmapsPage() {
                   {/* Progress */}
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-slate-400">Progress</span>
-                      <span className="text-slate-200 font-medium">
+                      <span className="text-white/40">Progress</span>
+                      <span className="text-white/80 font-medium">
                         {roadmap.progress}%
                       </span>
                     </div>
                     <Progress value={roadmap.progress} />
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-white/30 mt-1">
                       {roadmap.completedTopics}/{roadmap.totalTopics} topics
                       completed
                     </p>
                   </div>
 
                   {/* Meta */}
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                  <div className="flex items-center justify-between text-xs text-white/40">
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {roadmap.timeline.value} {roadmap.timeline.unit}
@@ -173,7 +173,7 @@ export default async function RoadmapsPage() {
                   </div>
 
                   {/* Action */}
-                  <div className="flex items-center justify-end text-sm text-violet-400 font-medium">
+                  <div className="flex items-center justify-end text-sm text-indigo-400 font-medium group-hover:text-indigo-300 transition-colors">
                     Continue
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </div>

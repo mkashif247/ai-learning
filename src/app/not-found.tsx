@@ -6,7 +6,7 @@ import Link from "next/link";
  */
 export default function NotFoundPage(): React.JSX.Element {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-[#06070b] p-8 text-center relative overflow-hidden">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-black p-8 text-center relative overflow-hidden">
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-indigo-500/5 blur-[100px] pointer-events-none" />
 

@@ -26,7 +26,7 @@ export const Sidebar = (): React.JSX.Element => {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-16 bottom-0 w-64 border-r border-white/6 bg-[rgba(8,10,15,0.5)] backdrop-blur-2xl hidden lg:block">
+    <aside className="fixed left-0 top-16 bottom-0 w-64 border-r border-white/10 bg-black/40 backdrop-blur-2xl hidden lg:block">
       <nav className="p-4 space-y-1">
         {sidebarItems.map((item) => {
           const isActive =
@@ -40,8 +40,8 @@ export const Sidebar = (): React.JSX.Element => {
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-white/6 text-white/90 border border-white/6]"
-                  : "text-white/40 hover:text-white/70 hover:bg-white/3]",
+                  ? "bg-white/10 text-white flex-row border border-white/10"
+                  : "text-white/40 hover:text-white/70 hover:bg-white/5",
               )}
             >
               <Icon

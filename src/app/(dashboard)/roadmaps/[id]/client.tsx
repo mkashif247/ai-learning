@@ -67,7 +67,7 @@ export default function RoadmapDetailClient({
       if (data.success) {
         router.push("/roadmaps");
       }
-    } catch (_error) {
+    } catch {
     } finally {
       setDeleting(false);
     }
@@ -101,7 +101,7 @@ export default function RoadmapDetailClient({
       }
 
       await readStream(reader, setTutorResponse);
-    } catch (_error) {
+    } catch {
       setTutorResponse("Sorry, I encountered an error. Please try again.");
     } finally {
       setTutorLoading(false);
@@ -190,7 +190,7 @@ function RoadmapHeader({
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+          <h1 className="text-2xl md:text-3xl font-bold text-white/90">
             {roadmap.title}
           </h1>
           <div className="flex flex-wrap items-center gap-3 mt-2">
@@ -208,9 +208,9 @@ function RoadmapHeader({
                 ? "Interview Prep"
                 : "Skill Learning"}
             </Badge>
-            <span className="text-sm text-slate-400">{roadmap.targetRole}</span>
-            <span className="text-sm text-slate-500">•</span>
-            <span className="text-sm text-slate-500">
+            <span className="text-sm text-white/40">{roadmap.targetRole}</span>
+            <span className="text-sm text-white/30">•</span>
+            <span className="text-sm text-white/30">
               Created {formatDate(roadmap.createdAt)}
             </span>
           </div>
@@ -261,32 +261,32 @@ function RoadmapStats({
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <Card>
         <CardContent className="p-4">
-          <div className="text-2xl font-bold text-slate-100">{progress}%</div>
-          <p className="text-xs text-slate-500">Overall Progress</p>
+          <div className="text-2xl font-bold text-white/90">{progress}%</div>
+          <p className="text-xs text-white/30">Overall Progress</p>
           <Progress value={progress} className="mt-2" />
         </CardContent>
       </Card>
       <Card>
         <CardContent className="p-4">
-          <div className="text-2xl font-bold text-slate-100">
+          <div className="text-2xl font-bold text-white/90">
             {completedTopics}/{totalTopics}
           </div>
-          <p className="text-xs text-slate-500">Topics Completed</p>
+          <p className="text-xs text-white/30">Topics Completed</p>
         </CardContent>
       </Card>
       <Card>
         <CardContent className="p-4">
-          <div className="text-2xl font-bold text-slate-100">{phasesCount}</div>
-          <p className="text-xs text-slate-500">Phases</p>
+          <div className="text-2xl font-bold text-white/90">{phasesCount}</div>
+          <p className="text-xs text-white/30">Phases</p>
         </CardContent>
       </Card>
       <Card>
         <CardContent className="p-4">
-          <div className="text-2xl font-bold text-slate-100 flex items-center gap-1">
-            <Clock className="h-5 w-5 text-slate-400" />
+          <div className="text-2xl font-bold text-white/90 flex items-center gap-1">
+            <Clock className="h-5 w-5 text-white/40" />
             {formatDuration(totalMinutes)}
           </div>
-          <p className="text-xs text-slate-500">Estimated Time</p>
+          <p className="text-xs text-white/30">Estimated Time</p>
         </CardContent>
       </Card>
     </div>
@@ -310,13 +310,13 @@ function TutorPanel({
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 text-violet-400" />
+          <MessageSquare className="h-5 w-5 text-indigo-400" />
           AI Tutor
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {tutorResponse ? (
-          <div className="p-4 rounded-lg bg-slate-800/50 text-sm text-slate-300 whitespace-pre-wrap">
+          <div className="p-4 rounded-lg bg-white/5 border border-white/10 text-sm text-white/80 whitespace-pre-wrap">
             {tutorResponse}
           </div>
         ) : null}
@@ -326,7 +326,7 @@ function TutorPanel({
             value={tutorMessage}
             onChange={(e) => setTutorMessage(e.target.value)}
             placeholder="Ask me anything about this topic..."
-            className="flex-1 h-10 rounded-lg border border-slate-700 bg-slate-800/50 px-4 text-sm text-slate-100 placeholder:text-slate-500"
+            className="flex-1 h-10 rounded-lg border border-white/10 bg-white/5 px-4 text-sm text-white/90 placeholder:text-white/40"
           />
           <Button type="submit" disabled={tutorLoading || !tutorMessage.trim()}>
             {tutorLoading ? (
